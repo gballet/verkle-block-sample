@@ -21,6 +21,11 @@ struct VerkleHeader {
 
 impl Decodable for VerkleHeader {
     fn decode(rlp: &rlp::Rlp<'_>) -> Result<Self, rlp::DecoderError> {
+        let serialized_proof_rlp  = rlp.at(16)?;
+        let kvandproofs = VerkleKeysValsAndProofs::decode(&serialized_proof_rlp)?;
+        Ok(VerkleHeader {
+            keyvals_and_proof: kvandproofs,
+        })
     }
 }
 
@@ -30,7 +35,9 @@ struct VerkleBlock {
 
 impl Decodable for VerkleBlock {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        
+        let headerrlp = rlp.at(0)?;
+        let header: VerkleHeader = VerkleHeader::decode(&headerrlp)?;
+        Ok(VerkleBlock { header: header })
     }
 }
 
