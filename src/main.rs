@@ -50,6 +50,9 @@ impl Decodable for VerkleKeysValsAndProofs {
 }
 
 struct VerkleHeader {
+    parent_hash: Vec<u8>,
+    storage_root: Vec<u8>,
+    number: Vec<u8>,
     keyvals_and_proof: VerkleKeysValsAndProofs,
 }
 
@@ -58,6 +61,9 @@ impl Decodable for VerkleHeader {
         let serialized_proof_rlp = rlp.at(16)?;
         let kvandproofs = VerkleKeysValsAndProofs::decode(&serialized_proof_rlp)?;
         Ok(VerkleHeader {
+            parent_hash: rlp.list_at(0).unwrap(),
+            storage_root: rlp.list_at(3).unwrap(),
+            number: rlp.list_at(8).unwrap(),
             keyvals_and_proof: kvandproofs,
         })
     }
