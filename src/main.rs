@@ -1,7 +1,9 @@
+use ark_serialize::CanonicalDeserialize;
 use rlp::{decode, Decodable, DecoderError, Rlp};
 use std::fs::File;
 use std::io::Read;
 use verkle_trie::proof::VerkleProof;
+use verkle_trie::EdwardsProjective;
 
 struct VerkleKeysValsAndProofs {
     verkle_proof: VerkleProof,
@@ -80,9 +82,12 @@ fn main() {
 
     let block: VerkleBlock = decode(&serialized).expect("could not decode verkle block");
 
+    let parent_root = hex::decode("").unwrap();
+    let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
+
     let kvp = block.header.keyvals_and_proof;
-    //let (checked, _) = kvp.verkle_proof.check(kvp.keys, kvp.values);
-    //if !checked {
-        //panic!("the proof didn't check")
-    //}
+    let (checked, _) = kvp.verkle_proof.check(kvp.keys, kvp.values, root);
+    if !checked {
+        panic!("the proof didn't check")
+    }
 }
