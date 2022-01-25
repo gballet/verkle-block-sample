@@ -1156,6 +1156,8 @@ checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
 name = "verkle-block-sample"
 version = "0.1.0"
 dependencies = [
+ "ark-serialize",
+ "hex",
  "rlp",
  "verkle-trie",
 ]

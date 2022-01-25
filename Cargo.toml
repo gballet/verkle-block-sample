@@ -8,3 +8,5 @@ edition = "2018"
 [dependencies]
 verkle-trie = { path = "../rust-verkle/verkle-trie" }
 rlp = "^0.5.1"
+ark-serialize = { version = "0.3.0", default-features = false }
+hex = "0.4.3"

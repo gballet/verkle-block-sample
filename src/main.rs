@@ -5,13 +5,45 @@ use verkle_trie::proof::VerkleProof;
 
 struct VerkleKeysValsAndProofs {
     verkle_proof: VerkleProof,
-    keys: Vec<Vec<u8>>,
-    values: Vec<Option<Vec<u8>>>,
+    keys: Vec<[u8; 32]>,
+    values: Vec<Option<[u8; 32]>>,
 }
 
 impl Decodable for VerkleKeysValsAndProofs {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        todo!();
+        let serialized_proof = rlp.list_at::<u8>(0)?;
+        let proof = VerkleProof::read(&serialized_proof[..]).unwrap();
+
+        let keyvals: Vec<u8> = rlp.list_at(1)?;
+        let mut keys: Vec<[u8; 32]> = Vec::new();
+        let mut values: Vec<Option<[u8; 32]>> = Vec::new();
+
+        let mut offset = 0usize;
+        while offset < keyvals.len() {
+            keys.push([0u8; 32]);
+            let keyref = keys.last_mut().unwrap();
+            keyref[..].clone_from_slice(&keyvals[offset..offset + 32]);
+            offset += 32;
+            match keyvals[offset] {
+                0 => values.push(None),
+                _ => {
+                    values.push(Some([0u8; 32]));
+                    match values.last_mut().unwrap() {
+                        Some(ref mut valref) => {
+                            valref[..].clone_from_slice(&keyvals[offset + 1..offset + 33])
+                        }
+                        _ => panic!("invalid value"),
+                    }
+                    offset += 33;
+                }
+            }
+        }
+
+        Ok(VerkleKeysValsAndProofs {
+            verkle_proof: proof,
+            keys: keys,
+            values: values,
+        })
     }
 }
 
