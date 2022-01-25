@@ -55,7 +55,7 @@ struct VerkleHeader {
 
 impl Decodable for VerkleHeader {
     fn decode(rlp: &rlp::Rlp<'_>) -> Result<Self, rlp::DecoderError> {
-        let serialized_proof_rlp  = rlp.at(16)?;
+        let serialized_proof_rlp = rlp.at(16)?;
         let kvandproofs = VerkleKeysValsAndProofs::decode(&serialized_proof_rlp)?;
         Ok(VerkleHeader {
             keyvals_and_proof: kvandproofs,
