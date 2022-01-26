@@ -1,6 +1,5 @@
 use ark_serialize::CanonicalDeserialize;
 use rlp::{decode, Decodable, DecoderError, Rlp};
-use std::convert::TryInto;
 use std::fs::File;
 use std::io::Read;
 use verkle_trie::proof::VerkleProof;
