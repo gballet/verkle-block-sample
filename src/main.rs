@@ -29,7 +29,6 @@ impl Decodable for KeyVals {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
         let mut keys: Vec<[u8; 32]> = Vec::new();
         let mut values: Vec<Option<[u8; 32]>> = Vec::new();
-        println!("size={:?} data={}", rlp.data(), rlp.size());
 
         let mut buf = rlp.data()?;
         let mut count_buf = [0u8; 4];
@@ -107,13 +106,13 @@ fn main() {
     let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
-        "de-serialized block:\n- parent hash: {}\n- storage root: {}\n- number: {}\n- key, value list:",
+        "de-serialized block:\n- parent hash: {}\n- storage root: {}\n- block number: {}\n- key, value list:",
         hex::encode(block.header.parent_hash), hex::encode(block.header.storage_root), hex::encode(block.header.number)
     );
 
     let keyvals = block.header.keyvals;
-    for (i, k) in keyvals.keys.iter().enumerate() {
-        match keyvals.values[i] {
+    for (k, v) in keyvals.keys.iter().zip(keyvals.values.clone()) {
+        match v{
             Some(ref val) => println!("\t{} => {}", hex::encode(k), hex::encode(val)),
             None => println!("\t{} is absent", hex::encode(k)),
         }
