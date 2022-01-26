@@ -29,27 +29,31 @@ impl Decodable for KeyVals {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
         let mut keys: Vec<[u8; 32]> = Vec::new();
         let mut values: Vec<Option<[u8; 32]>> = Vec::new();
+        println!("size={:?} data={}", rlp.data(), rlp.size());
 
-        //let mut offset = 0usize;
-        //while offset < keyvals.len() {
-        //keys.push([0u8; 32]);
-        //let keyref = keys.last_mut().unwrap();
-        //keyref[..].clone_from_slice(&keyvals[offset..offset + 32]);
-        //offset += 32;
-        //match keyvals[offset] {
-        //0 => values.push(None),
-        //_ => {
-        //values.push(Some([0u8; 32]));
-        //match values.last_mut().unwrap() {
-        //Some(ref mut valref) => {
-        //valref[..].clone_from_slice(&keyvals[offset + 1..offset + 33])
-        //}
-        //_ => panic!("invalid value"),
-        //}
-        //offset += 33;
-        //}
-        //}
-        //}
+        let mut offset = 0usize;
+        while offset < rlp.size() {
+            //keys.push([0u8; 32]);
+            //let keyref = keys.last_mut().unwrap();
+            //keyref[..].clone_from_slice(&keyvals[offset..offset + 32]);
+            offset += 32;
+            match rlp.data()?[offset] {
+                0 => {
+                    values.push(None);
+                    offset += 1;
+                }
+                _ => {
+                    //values.push(Some([0u8; 32]));
+                    //match values.last_mut().unwrap() {
+                    //Some(ref mut valref) => {
+                    //valref[..].clone_from_slice(&keyvals[offset + 1..offset + 33])
+                    //}
+                    //_ => panic!("invalid value"),
+                    //}
+                    offset += 33;
+                }
+            }
+        }
 
         Ok(KeyVals {
             keys: keys,
