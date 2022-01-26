@@ -1,5 +1,6 @@
 use ark_serialize::CanonicalDeserialize;
 use rlp::{decode, Decodable, DecoderError, Rlp};
+use std::convert::TryInto;
 use std::fs::File;
 use std::io::Read;
 use verkle_trie::proof::VerkleProof;
@@ -31,26 +32,25 @@ impl Decodable for KeyVals {
         let mut values: Vec<Option<[u8; 32]>> = Vec::new();
         println!("size={:?} data={}", rlp.data(), rlp.size());
 
-        let mut offset = 0usize;
-        while offset < rlp.size() {
-            //keys.push([0u8; 32]);
-            //let keyref = keys.last_mut().unwrap();
-            //keyref[..].clone_from_slice(&keyvals[offset..offset + 32]);
-            offset += 32;
-            match rlp.data()?[offset] {
-                0 => {
-                    values.push(None);
-                    offset += 1;
-                }
+        let mut buf = rlp.data()?;
+        let mut count_buf = [0u8; 4];
+        buf.read(&mut count_buf).unwrap();
+        let count = u32::from_le_bytes(count_buf);
+
+        for _ in 0..count {
+            keys.push([0u8; 32]);
+            let keyref = keys.last_mut().unwrap();
+            buf.read(keyref).unwrap();
+            let mut has_value = [0u8; 1];
+            buf.read(&mut has_value).unwrap();
+            match has_value[0] {
+                0 => values.push(None),
                 _ => {
-                    //values.push(Some([0u8; 32]));
-                    //match values.last_mut().unwrap() {
-                    //Some(ref mut valref) => {
-                    //valref[..].clone_from_slice(&keyvals[offset + 1..offset + 33])
-                    //}
-                    //_ => panic!("invalid value"),
-                    //}
-                    offset += 33;
+                    values.push(Some([0u8; 32]));
+                    match values.last_mut().unwrap() {
+                        Some(ref mut valref) => _ = buf.read(valref).unwrap(),
+                        _ => panic!("invalid value"),
+                    }
                 }
             }
         }
@@ -106,13 +106,24 @@ fn main() {
     let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
-        "de-serialized block:\n- parent hash: {:x?}\n- storage root: {:x?}\n- number: {:x?}",
+        "de-serialized block:\n- parent hash: {:x?}\n- storage root: {:x?}\n- number: {:x?}\n- key, value list:",
         block.header.parent_hash, block.header.storage_root, block.header.number
-    )
+    );
 
-    //let kvp = block.header.keyvals_and_proof;
-    //let (checked, _) = kvp.verkle_proof.check(kvp.keys, kvp.values, root);
-    //if !checked {
-    //panic!("the proof didn't check")
-    //}
+    let keyvals = block.header.keyvals;
+    for (i, k) in keyvals.keys.iter().enumerate() {
+        match keyvals.values[i] {
+            Some(ref val) => println!("\t{:?} => {:?}", k, val),
+            None => println!("\t{:?} is absent", k),
+        }
+    }
+
+    let (checked, _) = block
+        .header
+        .proof
+        .verkle_proof
+        .check(keyvals.keys, keyvals.values, root);
+    if !checked {
+        panic!("the proof didn't check")
+    }
 }
