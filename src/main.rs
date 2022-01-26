@@ -48,7 +48,7 @@ impl Decodable for KeyVals {
                 _ => {
                     values.push(Some([0u8; 32]));
                     match values.last_mut().unwrap() {
-                        Some(ref mut valref) => _ = buf.read(valref).unwrap(),
+                        Some(ref mut valref) => { buf.read(valref).unwrap(); }
                         _ => panic!("invalid value"),
                     }
                 }
