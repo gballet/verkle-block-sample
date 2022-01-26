@@ -106,15 +106,15 @@ fn main() {
     let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
-        "de-serialized block:\n- parent hash: {:x?}\n- storage root: {:x?}\n- number: {:x?}\n- key, value list:",
-        block.header.parent_hash, block.header.storage_root, block.header.number
+        "de-serialized block:\n- parent hash: {}\n- storage root: {}\n- number: {}\n- key, value list:",
+        hex::encode(block.header.parent_hash), hex::encode(block.header.storage_root), hex::encode(block.header.number)
     );
 
     let keyvals = block.header.keyvals;
     for (i, k) in keyvals.keys.iter().enumerate() {
         match keyvals.values[i] {
-            Some(ref val) => println!("\t{:?} => {:?}", k, val),
-            None => println!("\t{:?} is absent", k),
+            Some(ref val) => println!("\t{} => {}", hex::encode(k), hex::encode(val)),
+            None => println!("\t{} is absent", hex::encode(k)),
         }
     }
 
