@@ -95,7 +95,7 @@ impl Decodable for VerkleBlock {
 }
 
 fn main() {
-    let mut file = File::open("block1.rlp").expect("could not open file");
+    let mut file = File::open("block2.rlp").expect("could not open file");
     let mut serialized = Vec::<u8>::new();
     file.read_to_end(&mut serialized).unwrap();
 
