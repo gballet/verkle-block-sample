@@ -5,7 +5,7 @@
 This is a standard RLP block containing 3 transactions, and an added `VerkleProof` field at the end of the block header.
 
 ```
-> rlpdump block1.rlp
+> rlpdump block2.rlp
 [
   # Block Header
   [
