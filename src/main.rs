@@ -1,5 +1,6 @@
 use ark_serialize::CanonicalDeserialize;
 use rlp::{decode, Decodable, DecoderError, Rlp};
+use std::convert::TryInto;
 use std::fs::File;
 use std::io::Read;
 use verkle_trie::proof::VerkleProof;
@@ -20,6 +21,16 @@ impl Decodable for Proof {
     }
 }
 
+#[derive(Debug)]
+struct Tuple(Vec<u8>, Vec<u8>);
+
+impl Decodable for Tuple {
+    fn decode(rlp: &Rlp<'_>) -> std::result::Result<Self, rlp::DecoderError> {
+        println!("{:?}", rlp.val_at::<Vec<u8>>(0));
+        Ok(Tuple(rlp.val_at::<Vec<u8>>(0)?, rlp.val_at::<Vec<u8>>(1)?))
+    }
+}
+
 struct KeyVals {
     keys: Vec<[u8; 32]>,
     values: Vec<Option<[u8; 32]>>,
@@ -30,28 +41,19 @@ impl Decodable for KeyVals {
         let mut keys: Vec<[u8; 32]> = Vec::new();
         let mut values: Vec<Option<[u8; 32]>> = Vec::new();
 
-        let mut buf = rlp.data()?;
-        let mut count_buf = [0u8; 4];
-        buf.read(&mut count_buf).unwrap();
-        let count = u32::from_le_bytes(count_buf);
-
-        for _ in 0..count {
-            keys.push([0u8; 32]);
-            let keyref = keys.last_mut().unwrap();
-            buf.read(keyref).unwrap();
-            let mut has_value = [0u8; 1];
-            buf.read(&mut has_value).unwrap();
-            match has_value[0] {
-                0 => values.push(None),
-                _ => {
-                    values.push(Some([0u8; 32]));
-                    match values.last_mut().unwrap() {
-                        Some(ref mut valref) => {
-                            buf.read(valref).unwrap();
-                        }
-                        _ => panic!("invalid value"),
-                    }
+        for i in 0..rlp.item_count()? {
+            let t: Tuple = rlp.val_at(i)?;
+            keys.push(t.0.try_into().unwrap());
+            if t.1.len() == 0 {
+                values.push(None);
+            } else {
+                // pad up the values with 0s until the length is 32
+                // TODO fix that in geth
+                let mut aligned: Vec<u8> = t.1.clone();
+                while aligned.len() < 32 {
+                    aligned.push(0);
                 }
+                values.push(Some(aligned.try_into().unwrap()));
             }
         }
 
@@ -112,7 +114,7 @@ fn main() {
 
     let keyvals = block.header.keyvals;
     for (k, v) in keyvals.keys.iter().zip(keyvals.values.clone()) {
-        match v{
+        match v {
             Some(ref val) => println!("\t{} => {}", hex::encode(k), hex::encode(val)),
             None => println!("\t{} is absent", hex::encode(k)),
         }
