@@ -92,6 +92,8 @@ The verkle tree update adds two extra fields for the block: a proof and a list o
     * fix a duplicaiton issue for the commitments
     * remove the root commitment from the list
     * sort commitments by path
+  *  28.01.22:
+    * the keys and values are now encoded in the block with RLP
 
 ## TODO
 

@@ -26,7 +26,6 @@ struct Tuple(Vec<u8>, Vec<u8>);
 
 impl Decodable for Tuple {
     fn decode(rlp: &Rlp<'_>) -> std::result::Result<Self, rlp::DecoderError> {
-        println!("{:?}", rlp.val_at::<Vec<u8>>(0));
         Ok(Tuple(rlp.val_at::<Vec<u8>>(0)?, rlp.val_at::<Vec<u8>>(1)?))
     }
 }
