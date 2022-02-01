@@ -278,7 +278,6 @@ mod test {
             trie.insert_single(key.clone(), values[idx]);
         }
         println!("root hash = {:?}", trie.root_hash());
-        println!("verkle proof={:?}", vp);
         let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
         let mut buffer = ByteBuffer::new();
         vp.write(&mut buffer).unwrap();
