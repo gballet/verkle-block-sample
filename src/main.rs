@@ -32,7 +32,12 @@ impl Decodable for Tuple {
 
 impl TryInto<([u8; 32], Option<[u8; 32]>)> for Tuple {
     type Error = String;
-    fn try_into(self) -> std::result::Result<([u8; 32], Option<[u8; 32]>), <Self as TryInto<([u8; 32], Option<[u8; 32]>)>>::Error> {
+    fn try_into(
+        self,
+    ) -> std::result::Result<
+        ([u8; 32], Option<[u8; 32]>),
+        <Self as TryInto<([u8; 32], Option<[u8; 32]>)>>::Error,
+    > {
         let mut second = None;
 
         if self.1.len() > 0 {
