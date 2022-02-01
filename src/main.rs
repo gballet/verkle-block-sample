@@ -190,7 +190,7 @@ mod test {
             trie.insert_single(key.clone(), values[idx]);
         }
         println!("root hash = {:?}", trie.root_hash());
-        trie.create_verkle_proof(keys.into_iter());
-
+        let vp = trie.create_verkle_proof(keys.into_iter());
+        println!("verkle proof={:?}", vp);
     }
 }
