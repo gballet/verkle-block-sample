@@ -143,13 +143,15 @@ mod test {
 
     use std::convert::TryInto;
     use verkle_trie::database::memory_db::MemoryDb;
-    use verkle_trie::{trie::Trie, Config, TrieTrait};
+    // Note: for this to work, TestConfig needs to be made
+    // public in the verkle-trie crate.
     use bytebuffer::ByteBuffer;
+    use verkle_trie::{trie::Trie, TestConfig, TrieTrait};
 
     #[test]
     fn compare_with_geth() {
         let db = MemoryDb::new();
-        let mut trie = Trie::new(Config::new(db));
+        let mut trie = Trie::new(TestConfig::new(db));
 
         let keys: Vec<[u8; 32]> = vec![
             hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d01")
@@ -262,8 +264,14 @@ mod test {
         ];
 
         let absent_keys = vec![
-            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03").unwrap().try_into().unwrap(),
-            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04").unwrap().try_into().unwrap(),
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04")
+                .unwrap()
+                .try_into()
+                .unwrap(),
         ];
 
         for (idx, key) in keys.iter().enumerate() {
