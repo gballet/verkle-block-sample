@@ -159,7 +159,6 @@ mod test {
                 .unwrap()
                 .try_into()
                 .unwrap(),
-            //hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03").unwrap().try_into().unwrap(),
             hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a02")
                 .unwrap()
                 .try_into()
@@ -180,7 +179,6 @@ mod test {
                 .unwrap()
                 .try_into()
                 .unwrap(),
-            //hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04").unwrap().try_into().unwrap(),
             hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a00")
                 .unwrap()
                 .try_into()
@@ -216,7 +214,6 @@ mod test {
                 .unwrap()
                 .try_into()
                 .unwrap(),
-            /* absent */
             hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
                 .unwrap()
                 .try_into()
@@ -237,7 +234,6 @@ mod test {
                 .unwrap()
                 .try_into()
                 .unwrap(),
-            /* absent */
             hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
                 .unwrap()
                 .try_into()
@@ -264,11 +260,16 @@ mod test {
                 .unwrap(),
         ];
 
+        let absent_keys = vec![
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03").unwrap().try_into().unwrap(),
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04").unwrap().try_into().unwrap(),
+        ];
+
         for (idx, key) in keys.iter().enumerate() {
             trie.insert_single(key.clone(), values[idx]);
         }
         println!("root hash = {:?}", trie.root_hash());
-        let vp = trie.create_verkle_proof(keys.into_iter());
         println!("verkle proof={:?}", vp);
+        let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
     }
 }
