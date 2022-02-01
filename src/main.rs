@@ -144,6 +144,7 @@ mod test {
     use std::convert::TryInto;
     use verkle_trie::database::memory_db::MemoryDb;
     use verkle_trie::{trie::Trie, Config, TrieTrait};
+    use bytebuffer::ByteBuffer;
 
     #[test]
     fn compare_with_geth() {
@@ -271,5 +272,8 @@ mod test {
         println!("root hash = {:?}", trie.root_hash());
         println!("verkle proof={:?}", vp);
         let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
+        let mut buffer = ByteBuffer::new();
+        vp.write(&mut buffer).unwrap();
+        println!("serialized proof={}", hex::encode(buffer.to_bytes()));
     }
 }
