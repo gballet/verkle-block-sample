@@ -137,3 +137,60 @@ fn main() {
         panic!("the proof didn't check")
     }
 }
+
+#[cfg(test)]
+mod test {
+
+    use verkle_trie::{trie::Trie, Config, TrieTrait};
+    use verkle_trie::database::memory_db::MemoryDb;
+    use std::convert::TryInto;
+
+    #[test]
+    fn checkproof() {
+        let db = MemoryDb::new();
+        let mut trie = Trie::new(Config::new(db));
+
+        let keys : Vec<[u8; 32]> = vec![
+        hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d01").unwrap().try_into().unwrap(),
+	hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526400").unwrap().try_into().unwrap(),
+	//hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03").unwrap().try_into().unwrap(),
+	hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a02").unwrap().try_into().unwrap(),
+	hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d02").unwrap().try_into().unwrap(),
+	hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a04").unwrap().try_into().unwrap(),
+	hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526402").unwrap().try_into().unwrap(),
+	hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526403").unwrap().try_into().unwrap(),
+	//hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04").unwrap().try_into().unwrap(),
+	hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a00").unwrap().try_into().unwrap(),
+	hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a03").unwrap().try_into().unwrap(),
+	hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526401").unwrap().try_into().unwrap(),
+	hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526404").unwrap().try_into().unwrap(),
+	hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d00").unwrap().try_into().unwrap(),
+	hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a01").unwrap().try_into().unwrap(),
+        ];
+
+        let values = vec![
+      	hex::decode("320122e8584be00d000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	/* absent */
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("0300000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470").unwrap().try_into().unwrap(),
+	/* absent */
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470").unwrap().try_into().unwrap(),
+	hex::decode("1bc176f2790c91e6000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("0000000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+	hex::decode("e703000000000000000000000000000000000000000000000000000000000000").unwrap().try_into().unwrap(),
+        ];
+
+        for (idx, key) in keys.iter().enumerate() {
+            trie.insert_single(key.clone(), values[idx]);
+        }
+        println!("root hash = {:?}", trie.root_hash());
+        trie.create_verkle_proof(keys.into_iter());
+
+    }
+}
