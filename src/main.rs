@@ -30,6 +30,24 @@ impl Decodable for Tuple {
     }
 }
 
+impl Tuple {
+    // A helper function used to turn this structure into a tuple
+    fn to_tuple(self: Self) -> ([u8; 32], Option<[u8; 32]>) {
+        let mut second = None;
+
+        if self.1.len() > 0 {
+            // pad up the values with 0s until the length is 32
+            // will fail if len() > 32, should not happen for a
+            // somewhat valid input.
+            let mut padded = [0u8; 32];
+            padded[..self.1.len()].copy_from_slice(&self.1[..]);
+            second = Some(padded);
+        }
+
+        (self.0.try_into().unwrap(), second)
+    }
+}
+
 struct KeyVals {
     keys: Vec<[u8; 32]>,
     values: Vec<Option<[u8; 32]>>,
@@ -37,24 +55,10 @@ struct KeyVals {
 
 impl Decodable for KeyVals {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        let mut keys: Vec<[u8; 32]> = Vec::new();
-        let mut values: Vec<Option<[u8; 32]>> = Vec::new();
-
-        for i in 0..rlp.item_count()? {
-            let t: Tuple = rlp.val_at(i)?;
-            keys.push(t.0.try_into().unwrap());
-            if t.1.len() == 0 {
-                values.push(None);
-            } else {
-                // pad up the values with 0s until the length is 32
-                // TODO fix that in geth
-                let mut aligned: Vec<u8> = t.1.clone();
-                while aligned.len() < 32 {
-                    aligned.push(0);
-                }
-                values.push(Some(aligned.try_into().unwrap()));
-            }
-        }
+        let (keys, values): (Vec<[u8; 32]>, Vec<Option<[u8; 32]>>) = rlp
+            .iter()
+            .map(|r| r.as_val::<Tuple>().unwrap().to_tuple())
+            .unzip();
 
         Ok(KeyVals {
             keys: keys,
