@@ -30,9 +30,9 @@ impl Decodable for Tuple {
     }
 }
 
-impl Tuple {
-    // A helper function used to turn this structure into a tuple
-    fn to_tuple(self: Self) -> ([u8; 32], Option<[u8; 32]>) {
+impl TryInto<([u8; 32], Option<[u8; 32]>)> for Tuple {
+    type Error = String;
+    fn try_into(self) -> std::result::Result<([u8; 32], Option<[u8; 32]>), <Self as TryInto<([u8; 32], Option<[u8; 32]>)>>::Error> {
         let mut second = None;
 
         if self.1.len() > 0 {
@@ -44,7 +44,7 @@ impl Tuple {
             second = Some(padded);
         }
 
-        (self.0.try_into().unwrap(), second)
+        Ok((self.0.try_into().unwrap(), second))
     }
 }
 
@@ -57,7 +57,7 @@ impl Decodable for KeyVals {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
         let (keys, values): (Vec<[u8; 32]>, Vec<Option<[u8; 32]>>) = rlp
             .iter()
-            .map(|r| r.as_val::<Tuple>().unwrap().to_tuple())
+            .map(|r| r.as_val::<Tuple>().unwrap().try_into().unwrap())
             .unzip();
 
         Ok(KeyVals {
