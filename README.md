@@ -147,6 +147,54 @@ The verkle tree update adds two extra fields for the block: a proof and a list o
 | Proof | 16 | Binary payload to pass to `rust-verkle` directly:<br /> * len(Proof of absence stem) ++ Proof of absence stems <br /> * len(depths) ++ serialize(depthi ++ ext statusi) <br /> * len(commitments) ++ serialize(commitment)<br /> * Multipoint proof | Flat binary
 | Key, values | 17 | For each (key, value): a list of two byte arrays. The first array is the 32-byte key, and the second array is a 32-byte value (if present) or an empty array (if absent) | RLP |
 
+## Understanding the proof with the helper utility
+
+The block that is provided, can be decyphered with the program provided in this repository. At the moment, the proofs don't check, so this section will be limited to the parts that do, and gradually expanded as fixes are rolled in.
+
+```
+> cargo run
+(...)
+de-serialized block:
+- parent hash: 2a0fa77c9673bac5696974f6693b917bd391bcbfe564e1d246ebaa9835255c8a
+- storage root: 03aec4276033869b5900313c7d807cdaa948e38acd9aa43c98e05089adc7389d
+- block number: 02
+```
+
+The program starts by dumping some information related to the block: it's block number two, and the parent's hash is the one that is seen in the RLP. It proceeds to dump the (key, value) list.
+
+```
+- key, value list:
+	318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d01 => 320122e8584be00d000000000000000000000000000000000000000000000000
+	e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526400 => 0000000000000000000000000000000000000000000000000000000000000000
+	318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03 is absent
+	18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a02 => 0000000000000000000000000000000000000000000000000000000000000000
+	318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d02 => 0300000000000000000000000000000000000000000000000000000000000000
+	18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a04 => 0000000000000000000000000000000000000000000000000000000000000000
+	e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526402 => 0000000000000000000000000000000000000000000000000000000000000000
+	e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526403 => c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+	318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04 is absent
+	18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a00 => 0000000000000000000000000000000000000000000000000000000000000000
+	18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a03 => c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+	e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526401 => 1bc176f2790c91e6000000000000000000000000000000000000000000000000
+	e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526404 => 0000000000000000000000000000000000000000000000000000000000000000
+	318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d00 => 0000000000000000000000000000000000000000000000000000000000000000
+	18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a01 => e703000000000000000000000000000000000000000000000000000000000000
+```
+
+## Checking the proof with the associated test
+
+The rust code also includes a test function `compare_with_geth`, that rebuilds the tree as it exists in geth, and generates the proof from the rust code. The two proofs are currently incompatible, however it is possible to print out the expected proof in hex format by typing:
+
+```
+> cargo test -- --nocapture
+(...)
+running 1 test
+root hash = Fp256(BigInteger256([10406966316851207971, 15857174521354302062, 5038919711403931747, 1045348151016585832]))
+serialized proof=00000000030000000a0a0a0600000053acaf9df78f9714054fdaaa630d6a3e60521c57d301411ac4c49668df25e40c49a58622affc8f8cc93042c7d5977127823d382e2602f3dc3e79e984b5dcd1614e221a9dfb42671da7ad1018131752c994bcd0c7b01441777cc7e09f646abc06b309948924dfefdfc44792e4c9fce1cd86c9145e16970d6d20bf61139d7a5ee48dec49d7e5c2ec27f35dc664ca337c8d01bfe276b8eb4fbc24910a557cf2cd30e386a2666ccf5191dc9caf569f183375444b6f48ebcff55330dd63bcdfdee8243e16c371b13a368de5ab953f44ad91ccb3a11568ea70e1bd64a36c6f5792ff0167cef8b0cf5dcc222f9b97f86f7bfa012d9fa917ce34a505bb1126ff9e064a45d2ce33a4b04145c0ad64c33f2bbf62558c44679d734413e92f9431bb4f7bb49f2d22da9e9640ab2e0cce48f1430096b77343842ae4688e8c785715b7da12e15529673b6b232e861b49301908e476ee009ac3acf34ef9d97ef75e4bcd9ac2a7ef40d53c09abae5e2e302e22f3e66b7cd7e1f7d8adaacec845975be4b40fbe041b2aa44e8c5aff2e363c3cc24d76e4cb8f20a815bbd587b3b59ff1bac5d0053f8fe34bc4fbfa222420f5b34cd7986a01c1da8273a289ecd8d3e393a1ea7af40f71bd514394cef0a1af38cfcefcb7fe3aa78ad980ad56c657b9e1945cb2b5fd3d04830270ebf638a707c3be1efff67dc1a5b8251ae9a540d403f55dba146d9062ae6e70e639f9ee2bd7a7394954466277dd9c1ef256df31497892de34e8de0d788cf525e47669e8a959e5c20bb62583937b99c2a4b95dd37be1ce24dbf9a18eceaf370ce0da389cccd432ad46442e7c18c33f13e5e2d736a284bcbddca3cf85a2dd4bf049d89f950c0f1e03ef19f9729425e4ef15cb06dbe0a54fbee7e135e89892d90d06856951d4f4f9d5fe1ea41a4bc249e9fca9a7eb4c2a55ed4a427109c4807062af2fb0c8c10141cf1bd798181039285cf3ab88c13401d35404bb4a80541f1d200a3eb8264a060e58f56084b818f034fdda222193bdbc10b0e5eb6f92edd563cb87a9da7587f9625e4c9a06757f2a2ba13613121b8b693304c05dc2f0f80a
+```
+
+One can see that the proof hints are identical. The commitments and values, however, differ. It is being investigated.
+
 ## Changelog
 
   * 22.01.22 - Initial version
@@ -157,6 +205,8 @@ The verkle tree update adds two extra fields for the block: a proof and a list o
     * sort commitments by path
   * 28.01.22:
     * the keys and values are now encoded in the block with RLP
+  * 01.02.22:
+    * Add a test to compare geth and rust-verkle outputs
 
 ## TODO
 

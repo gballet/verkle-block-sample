@@ -30,6 +30,29 @@ impl Decodable for Tuple {
     }
 }
 
+impl TryInto<([u8; 32], Option<[u8; 32]>)> for Tuple {
+    type Error = String;
+    fn try_into(
+        self,
+    ) -> std::result::Result<
+        ([u8; 32], Option<[u8; 32]>),
+        <Self as TryInto<([u8; 32], Option<[u8; 32]>)>>::Error,
+    > {
+        let mut second = None;
+
+        if self.1.len() > 0 {
+            // pad up the values with 0s until the length is 32
+            // will fail if len() > 32, should not happen for a
+            // somewhat valid input.
+            let mut padded = [0u8; 32];
+            padded[..self.1.len()].copy_from_slice(&self.1[..]);
+            second = Some(padded);
+        }
+
+        Ok((self.0.try_into().unwrap(), second))
+    }
+}
+
 struct KeyVals {
     keys: Vec<[u8; 32]>,
     values: Vec<Option<[u8; 32]>>,
@@ -37,24 +60,10 @@ struct KeyVals {
 
 impl Decodable for KeyVals {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        let mut keys: Vec<[u8; 32]> = Vec::new();
-        let mut values: Vec<Option<[u8; 32]>> = Vec::new();
-
-        for i in 0..rlp.item_count()? {
-            let t: Tuple = rlp.val_at(i)?;
-            keys.push(t.0.try_into().unwrap());
-            if t.1.len() == 0 {
-                values.push(None);
-            } else {
-                // pad up the values with 0s until the length is 32
-                // TODO fix that in geth
-                let mut aligned: Vec<u8> = t.1.clone();
-                while aligned.len() < 32 {
-                    aligned.push(0);
-                }
-                values.push(Some(aligned.try_into().unwrap()));
-            }
-        }
+        let (keys, values): (Vec<[u8; 32]>, Vec<Option<[u8; 32]>>) = rlp
+            .iter()
+            .map(|r| r.as_val::<Tuple>().unwrap().try_into().unwrap())
+            .unzip();
 
         Ok(KeyVals {
             keys: keys,
@@ -126,5 +135,152 @@ fn main() {
         .check(keyvals.keys, keyvals.values, root);
     if !checked {
         panic!("the proof didn't check")
+    }
+}
+
+#[cfg(test)]
+mod test {
+
+    use std::convert::TryInto;
+    use verkle_trie::database::memory_db::MemoryDb;
+    // Note: for this to work, TestConfig needs to be made
+    // public in the verkle-trie crate.
+    use bytebuffer::ByteBuffer;
+    use verkle_trie::{trie::Trie, TestConfig, TrieTrait};
+
+    #[test]
+    fn compare_with_geth() {
+        let db = MemoryDb::new();
+        let mut trie = Trie::new(TestConfig::new(db));
+
+        let keys: Vec<[u8; 32]> = vec![
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d01")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526400")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a02")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d02")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a04")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526402")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526403")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a00")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526401")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526404")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d00")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a01")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        let values = vec![
+            hex::decode("320122e8584be00d000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0300000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("1bc176f2790c91e6000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e703000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        let absent_keys = vec![
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        for (idx, key) in keys.iter().enumerate() {
+            trie.insert_single(key.clone(), values[idx]);
+        }
+        println!("root hash = {:?}", trie.root_hash());
+        let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
+        let mut buffer = ByteBuffer::new();
+        vp.write(&mut buffer).unwrap();
+        println!("serialized proof={}", hex::encode(buffer.to_bytes()));
     }
 }

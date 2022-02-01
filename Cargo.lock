@@ -224,6 +224,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 
 [[package]]
+name = "bytebuffer"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e822a21389d388828152aeae8bb43049196b09076e2a138f53351d8cf6576cf3"
+dependencies = [
+ "byteorder",
+]
+
+[[package]]
+name = "byteorder"
+version = "0.3.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "29b2aa490a8f546381308d68fc79e6bd753cd3ad839f7a7172897f1feedfa175"
+
+[[package]]
 name = "bytes"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1157,6 +1172,7 @@ name = "verkle-block-sample"
 version = "0.1.0"
 dependencies = [
  "ark-serialize",
+ "bytebuffer",
  "hex",
  "rlp",
  "verkle-trie",
