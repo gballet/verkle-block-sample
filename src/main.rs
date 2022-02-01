@@ -146,7 +146,7 @@ mod test {
     use verkle_trie::{trie::Trie, Config, TrieTrait};
 
     #[test]
-    fn checkproof() {
+    fn compare_with_geth() {
         let db = MemoryDb::new();
         let mut trie = Trie::new(Config::new(db));
 
