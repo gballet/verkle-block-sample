@@ -146,7 +146,14 @@ mod test {
     // Note: for this to work, TestConfig needs to be made
     // public in the verkle-trie crate.
     use bytebuffer::ByteBuffer;
-    use verkle_trie::{trie::Trie, TestConfig, TrieTrait};
+    use verkle_trie::{trie::Trie, TestConfig, TrieTrait, Fr};
+
+    fn scalar_to_array(scalar: &Fr) -> [u8; 32] {
+        let mut bytes = [0u8; 32];
+        use ark_serialize::CanonicalSerialize;
+        scalar.serialize_uncompressed(&mut bytes[..]).unwrap();
+        bytes
+    }
 
     #[test]
     fn compare_with_geth() {
@@ -277,7 +284,11 @@ mod test {
         for (idx, key) in keys.iter().enumerate() {
             trie.insert_single(key.clone(), values[idx]);
         }
-        println!("root hash = {:?}", trie.root_hash());
+        let root_hash = trie.root_hash();
+        println!(
+            "root hash = {:?}",
+            hex::encode(scalar_to_array(&root_hash))
+        );
         let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
         let mut buffer = ByteBuffer::new();
         vp.write(&mut buffer).unwrap();
