@@ -146,7 +146,7 @@ mod test {
     // Note: for this to work, TestConfig needs to be made
     // public in the verkle-trie crate.
     use bytebuffer::ByteBuffer;
-    use verkle_trie::{trie::Trie, TestConfig, TrieTrait, Fr};
+    use verkle_trie::{trie::Trie, Fr, TestConfig, TrieTrait};
 
     fn scalar_to_array(scalar: &Fr) -> [u8; 32] {
         let mut bytes = [0u8; 32];
@@ -285,10 +285,7 @@ mod test {
             trie.insert_single(key.clone(), values[idx]);
         }
         let root_hash = trie.root_hash();
-        println!(
-            "root hash = {:?}",
-            hex::encode(scalar_to_array(&root_hash))
-        );
+        println!("root hash = {:?}", hex::encode(scalar_to_array(&root_hash)));
         let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
         let mut buffer = ByteBuffer::new();
         vp.write(&mut buffer).unwrap();
