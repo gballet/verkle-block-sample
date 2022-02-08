@@ -286,9 +286,30 @@ mod test {
         }
         let root_hash = trie.root_hash();
         println!("root hash = {:?}", hex::encode(scalar_to_array(&root_hash)));
-        let vp = trie.create_verkle_proof(keys.into_iter().chain(absent_keys.into_iter()));
+        let vp = trie.create_verkle_proof(
+            keys.clone()
+                .into_iter()
+                .chain(absent_keys.clone().into_iter()),
+        );
         let mut buffer = ByteBuffer::new();
         vp.write(&mut buffer).unwrap();
         println!("serialized proof={}", hex::encode(buffer.to_bytes()));
+
+        let (valid, _) = vp.check(
+            keys,
+            values
+                .iter()
+                .map(|v| {
+                    Some(
+                        v.to_vec()
+                            .try_into()
+                            .expect("could not convert value into [u8; 32]"),
+                    )
+                })
+                .chain(absent_keys.iter().map(|_| None))
+                .collect(),
+            trie.root_commitment(),
+        );
+        assert!(valid);
     }
 }
