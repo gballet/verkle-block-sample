@@ -48,7 +48,7 @@ fn main() {
     let block: VerkleBlock = decode(&serialized).expect("could not decode verkle block");
 
     let parent_root =
-        hex::decode("0e494c2da9ce1bc5a09391a2936214f046b4af57722198881a845ee7b2b33486").unwrap();
+        hex::decode("6529385f1bcd860a74e6dbb6a5b9a84ec44c45cf5646f8e70fd234412a0cd753").unwrap();
     let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
@@ -77,9 +77,9 @@ fn main() {
 #[cfg(test)]
 mod test {
 
+    use bytebuffer::ByteBuffer;
     use std::convert::TryInto;
     use verkle_trie::database::memory_db::MemoryDb;
-    use bytebuffer::ByteBuffer;
     // Note: for this to work, TestConfig needs to be made
     // public in the verkle-trie crate.
     use verkle_trie::{trie::Trie, Fr, TestConfig, TrieTrait};

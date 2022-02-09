@@ -21,12 +21,7 @@ impl TryInto<([u8; 32], Option<[u8; 32]>)> for Tuple {
         let mut second = None;
 
         if self.1.len() > 0 {
-            // pad up the values with 0s until the length is 32
-            // will fail if len() > 32, should not happen for a
-            // somewhat valid input.
-            let mut padded = [0u8; 32];
-            padded[..self.1.len()].copy_from_slice(&self.1[..]);
-            second = Some(padded);
+            second = Some(self.1.try_into().unwrap());
         }
 
         Ok((self.0.try_into().unwrap(), second))
