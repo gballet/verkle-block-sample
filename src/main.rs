@@ -1,83 +1,19 @@
 use ark_serialize::CanonicalDeserialize;
 use rlp::{decode, Decodable, DecoderError, Rlp};
-use std::convert::TryInto;
 use std::fs::File;
 use std::io::Read;
-use verkle_trie::proof::VerkleProof;
 use verkle_trie::EdwardsProjective;
 
-struct Proof {
-    verkle_proof: VerkleProof,
-}
-
-impl Decodable for Proof {
-    fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        let serialized_proof = rlp.data()?;
-        let proof = VerkleProof::read(&serialized_proof[..]).unwrap();
-
-        Ok(Proof {
-            verkle_proof: proof,
-        })
-    }
-}
-
-#[derive(Debug)]
-struct Tuple(Vec<u8>, Vec<u8>);
-
-impl Decodable for Tuple {
-    fn decode(rlp: &Rlp<'_>) -> std::result::Result<Self, rlp::DecoderError> {
-        Ok(Tuple(rlp.val_at::<Vec<u8>>(0)?, rlp.val_at::<Vec<u8>>(1)?))
-    }
-}
-
-impl TryInto<([u8; 32], Option<[u8; 32]>)> for Tuple {
-    type Error = String;
-    fn try_into(
-        self,
-    ) -> std::result::Result<
-        ([u8; 32], Option<[u8; 32]>),
-        <Self as TryInto<([u8; 32], Option<[u8; 32]>)>>::Error,
-    > {
-        let mut second = None;
-
-        if self.1.len() > 0 {
-            // pad up the values with 0s until the length is 32
-            // will fail if len() > 32, should not happen for a
-            // somewhat valid input.
-            let mut padded = [0u8; 32];
-            padded[..self.1.len()].copy_from_slice(&self.1[..]);
-            second = Some(padded);
-        }
-
-        Ok((self.0.try_into().unwrap(), second))
-    }
-}
-
-struct KeyVals {
-    keys: Vec<[u8; 32]>,
-    values: Vec<Option<[u8; 32]>>,
-}
-
-impl Decodable for KeyVals {
-    fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        let (keys, values): (Vec<[u8; 32]>, Vec<Option<[u8; 32]>>) = rlp
-            .iter()
-            .map(|r| r.as_val::<Tuple>().unwrap().try_into().unwrap())
-            .unzip();
-
-        Ok(KeyVals {
-            keys: keys,
-            values: values,
-        })
-    }
-}
+mod proof;
+pub(crate) mod tuple;
+mod keyvals;
 
 struct VerkleHeader {
     parent_hash: Vec<u8>,
     storage_root: Vec<u8>,
     number: Vec<u8>,
-    proof: Proof,
-    keyvals: KeyVals,
+    proof: proof::Proof,
+    keyvals: keyvals::KeyVals,
 }
 
 impl Decodable for VerkleHeader {
@@ -86,8 +22,8 @@ impl Decodable for VerkleHeader {
             parent_hash: rlp.at(0)?.as_val::<Vec<u8>>()?,
             storage_root: rlp.at(3)?.as_val::<Vec<u8>>()?,
             number: rlp.at(8)?.as_val::<Vec<u8>>()?,
-            proof: rlp.at(16)?.as_val::<Proof>()?,
-            keyvals: rlp.at(17)?.as_val::<KeyVals>()?,
+            proof: rlp.at(16)?.as_val::<proof::Proof>()?,
+            keyvals: rlp.at(17)?.as_val::<keyvals::KeyVals>()?,
         })
     }
 }
@@ -296,7 +232,9 @@ mod test {
         println!("serialized proof={}", hex::encode(buffer.to_bytes()));
 
         let (valid, _) = vp.check(
-            keys.into_iter().chain(absent_keys.clone().into_iter()).collect(),
+            keys.into_iter()
+                .chain(absent_keys.clone().into_iter())
+                .collect(),
             values
                 .iter()
                 .map(|v| {
