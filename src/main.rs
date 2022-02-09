@@ -4,9 +4,9 @@ use std::fs::File;
 use std::io::Read;
 use verkle_trie::EdwardsProjective;
 
+mod keyvals;
 mod proof;
 pub(crate) mod tuple;
-mod keyvals;
 
 struct VerkleHeader {
     parent_hash: Vec<u8>,
@@ -79,9 +79,9 @@ mod test {
 
     use std::convert::TryInto;
     use verkle_trie::database::memory_db::MemoryDb;
+    use bytebuffer::ByteBuffer;
     // Note: for this to work, TestConfig needs to be made
     // public in the verkle-trie crate.
-    use bytebuffer::ByteBuffer;
     use verkle_trie::{trie::Trie, Fr, TestConfig, TrieTrait};
 
     fn scalar_to_array(scalar: &Fr) -> [u8; 32] {
