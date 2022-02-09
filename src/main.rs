@@ -296,7 +296,7 @@ mod test {
         println!("serialized proof={}", hex::encode(buffer.to_bytes()));
 
         let (valid, _) = vp.check(
-            keys,
+            keys.into_iter().chain(absent_keys.clone().into_iter()).collect(),
             values
                 .iter()
                 .map(|v| {
