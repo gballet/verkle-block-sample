@@ -227,8 +227,11 @@ One can see that the proof hints are identical:
     * Add a test to compare geth and rust-verkle outputs
   * 08.02.22:
     * Rust and geth verkle proofs check out in the test
+  * 09.02.22:
+    * block proof decoding completed
 
 ## TODO
 
  * [x] RLP encoding of the structure encapsulating the proof and the (key, values) tuples
  * [ ] SSZ encoding of that same structure when the final format has been defined
+ * [ ] Add post state to the block
