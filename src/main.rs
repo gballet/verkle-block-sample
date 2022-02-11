@@ -72,6 +72,8 @@ fn main() {
     if !checked {
         panic!("the proof didn't check")
     }
+
+    print!("Proof verified");
 }
 
 #[cfg(test)]
