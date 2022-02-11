@@ -149,7 +149,7 @@ The verkle tree update adds two extra fields for the block: a proof and a list o
 
 ## Understanding the proof with the helper utility
 
-The block that is provided, can be decyphered with the program provided in this repository. At the moment, the proofs don't check, so this section will be limited to the parts that do, and gradually expanded as fixes are rolled in.
+The block that is provided, can be decyphered with the program provided in this repository.
 
 ```
 > cargo run
@@ -181,15 +181,36 @@ The program starts by dumping some information related to the block: it's block 
 	a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d604 is absent
 ```
 
-These are the same addresses that are present in the RLP dump above.
+These are the same addresses that are present in the RLP dump above. Note that:
+ * no contract is being called, these transactions are just value transfers from one account to the next, so all leaves are either:
+   * keys ending in `00`: an account version, which is always set to `0`
+   * keys ending in `01`: an account balance
+   * keys ending in `02`: an account nonce
+   * keys ending in `03`: is the code hash of the account
+   * keys ending in `04`: an the code size of the account
+ * 
+ * numbers are **little endian**-endcoded. For example, the address `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d602` represents nonce `3` for an account, and the number 3 is the left-most byte.
+ * "absent" values mean that, before block 2 was executed, these keys were missing. This means that prior to the block execution, the value for the hash and the size of this account's code were not present in the tree. _This is a bug in the code that produced this block, the account's code hash and size should always be present_.
 
-The next step is to decode the proof from the RLP block.
+The next step is to decode the proof from the RLP block. Some information is displayed on the screen:
 
-The final step is to verify the proof.
+```
+Verkle proof:
+ * verification hints: 1 1 1 Present Present Present 
+ * commitments: b8ce3d5e8857cec668d54ec13353ec237ba776832452a28514800efd75898366 49a58622affc8f8cc93042c7d5977127823d382e2602f3dc3e79e984b5dcd161 9fa9e535b55a646a53dbee71d0182a52457558187d00aba5945c3865fccd5130 4b084aefe7c95d371d42ba690a950e9144b78b1be51b037cf2c7282d8d015bd7 c0691f07dd31120f69b8d5d0b9adad2ef1da65b7f32e22fa8128980e43f1d23b d24543030c25a08399df898b9f3f8f1e0efb9c96ffa79402fdfaab7e9c522e8c 
+```
 
-## Checking the proof with the associated test
+The three `1` indicate that there are three "stems" and that they are at depth 1, and the following three `Present` indicate that these stems were present in the tree. Then, the commitments used in the proof are listed.
 
-The rust code also includes a unit test `compare_with_geth`, that rebuilds the tree as it exists in geth, and generates the proof from the rust code. It is possible to print out the expected proof in hex format by typing:
+The final step is to verify the proof:
+
+```
+Proof verified.
+```
+
+## Checking of a proof with the associated test
+
+The rust code also includes a unit test `compare_with_geth`, that rebuilds the tree as provided by a unit test in geth, and generates the proof from the rust code. This is **NOT** the same tree as found in the example block. It is possible to print out the expected proof in hex format by typing:
 
 ```
 > cargo test -- --nocapture
@@ -198,7 +219,7 @@ running 1 test
 serialized proof=00000000030000000a0a0a0600000053acaf9df78f9714054fdaaa630d6a3e60521c57d301411ac4c49668df25e40c49a58622affc8f8cc93042c7d5977127823d382e2602f3dc3e79e984b5dcd1614e221a9dfb42671da7ad1018131752c994bcd0c7b01441777cc7e09f646abc06b309948924dfefdfc44792e4c9fce1cd86c9145e16970d6d20bf61139d7a5ee48dec49d7e5c2ec27f35dc664ca337c8d01bfe276b8eb4fbc24910a557cf2cd30e386a2666ccf5191dc9caf569f183375444b6f48ebcff55330dd63bcdfdee8243e16c371b13a368de5ab953f44ad91ccb3a11568ea70e1bd64a36c6f5792ff0167cef8b0cf5dcc222f9b97f86f7bfa012d9fa917ce34a505bb1126ff9e064a45d2ce33a4b04145c0ad64c33f2bbf62558c44679d734413e92f9431bb4f7bb49f2d22da9e9640ab2e0cce48f1430096b77343842ae4688e8c785715b7da12e15529673b6b232e861b49301908e476ee009ac3acf34ef9d97ef75e4bcd9ac2a7ef40d53c09abae5e2e302e22f3e66b7cd7e1f7d8adaacec845975be4b40fbe041b2aa44e8c5aff2e363c3cc24d76e4cb8f20a815bbd587b3b59ff1bac5d0053f8fe34bc4fbfa222420f5b34cd7986a01c1da8273a289ecd8d3e393a1ea7af40f71bd514394cef0a1af38cfcefcb7fe3aa78ad980ad56c657b9e1945cb2b5fd3d04830270ebf638a707c3be1efff67dc1a5b8251ae9a540d403f55dba146d9062ae6e70e639f9ee2bd7a7394954466277dd9c1ef256df31497892de34e8de0d788cf525e47669e8a959e5c20bb62583937b99c2a4b95dd37be1ce24dbf9a18eceaf370ce0da389cccd432ad46442e7c18c33f13e5e2d736a284bcbddca3cf85a2dd4bf049d89f950c0f1e03ef19f9729425e4ef15cb06dbe0a54fbee7e135e89892d90d06856951d4f4f9d5fe1ea41a4bc249e9fca9a7eb4c2a55ed4a427109c4807062af2fb0c8c10141cf1bd798181039285cf3ab88c13401d35404bb4a80541f1d200a3eb8264a060e58f56084b818f034fdda222193bdbc10b0e5eb6f92edd563cb87a9da7587f9625e4c9a06757f2a2ba13613121b8b693304c05dc2f0f80a
 ```
 
-One can see that the proof hints are identical:
+Breaking this down:
   * The first 4 bytes represent the value `0`, which means that there are no "proof-of-absence" stems, i.e. stems whose presence in the tree prove that one of the key we are missing is absent from the tree;
   * The next 4 bytes say that there are 3 different stems in the tree, which is correct;
   * for each of these stems, the "extension status" is `0x0a`; it means that each stem:
