@@ -6,6 +6,8 @@ In order to foster the implementation of verkle trees in clients, and to facilit
  * a sample block containing a verkle proof,
  * a utility that decodes this block, verifies it, and displays some information.
 
+This README file and the associated block will be updated over time. Feedback is welcome, especially requests for clarification. Open an issue in this repository, and I will adress it ASAP!
+
 ## Block content
 
 This is a standard RLP block containing 3 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
