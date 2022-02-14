@@ -1,5 +1,11 @@
 # Example of a block root with a Verkle state root
 
+## Purpose
+
+In order to foster the implementation of verkle trees in clients, and to facilitate client interoperability, this repository provides:
+ * a sample block containing a verkle proof,
+ * a utility that decodes this block, verifies it, and displays some information.
+
 ## Block content
 
 This is a standard RLP block containing 3 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
@@ -213,7 +219,6 @@ These are the same addresses that are present in the RLP dump above. Note that:
    * keys ending in `02`: an account nonce
    * keys ending in `03`: is the code hash of the account
    * keys ending in `04`: an the code size of the account
- * 
  * numbers are **little endian**-endcoded. For example, the address `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d602` represents nonce `3` for an account, and the number 3 is the left-most byte.
  * "absent" values mean that, before block 2 was executed, these keys were missing. This means that prior to the block execution, the value for the hash and the size of this account's code were not present in the tree. _This is a bug in the code that produced this block, the account's code hash and size should always be present_.
 
