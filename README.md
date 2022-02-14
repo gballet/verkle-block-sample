@@ -2,7 +2,33 @@
 
 ## Block content
 
-This is a standard RLP block containing 3 transactions, and an added `VerkleProof` field at the end of the block header.
+This is a standard RLP block containing 3 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
+
+![Verkle tree](/verkle.png)
+
+**Note**: on this diagram, the leading zeroes have been drop to improve readability.
+
+This is a simple state that contains 3 accounts:
+
+| Account address                              | Account component | Tree key                                                           | Value                               |
+| ---------------                              | ----------------- | --------                                                           | -----                               |
+| `0x0000000000000000000000000000000000000000` | Version           | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd00` | 0                                   |
+| `0x0000000000000000000000000000000000000000` | Balance           | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd01` | 2000000000000000999 (little endian) |
+| `0x0000000000000000000000000000000000000000` | Nonce             | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd02` | 0                                   |
+| `0x0000000000000000000000000000000000000000` | Code hash         | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd03` | (empty code hash)                   |
+| `0x0000000000000000000000000000000000000000` | Code size         | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd04` | 0 (no code)                         |
+| `0x0102030000000000000000000000000000000000` | Version           | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd00` | 0                                   |
+| `0x0102030000000000000000000000000000000000` | Balance           | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd01` | 999(little endian)  |
+| `0x0102030000000000000000000000000000000000` | Nonce             | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd02` | 0                                   |
+| `0x0102030000000000000000000000000000000000` | Code hash         | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd03` | (empty code hash)                   |
+| `0x0102030000000000000000000000000000000000` | Code size         | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd04` | 0 (no code)                         |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Version           | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d600` | 0                                   |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Balance           | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d601` | 999913024999998002 (little endian)  |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Nonce             | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d602` | 3                                   |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code hash         | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d603` | (empty code hash)                   |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code size         | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d604` | 0 (no code)                         |
+
+The "tree key" value is obtained by calling the `get_tree_key*` family of functions. These are the values that are reported when dumping the block's rlp:
 
 ```
 > rlpdump block2.rlp
@@ -33,65 +59,65 @@ This is a standard RLP block containing 3 transactions, and an added `VerkleProo
     # block's execution.
     [
       [
-        318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d01,
-        320122e8584be00d,
-      ],
-      [
-        e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526400,
+        6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd00,
         0000000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d03,
-        "",
+        6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd01,
+        e703000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a02,
-        0000000000000000,
-      ],
-      [
-        318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d02,
-        0300000000000000,
-      ],
-      [
-        18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a04,
+        6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd02,
         0000000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526402,
-        0000000000000000,
-      ],
-      [
-        e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526403,
+        6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd03,
         c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470,
       ],
       [
-        318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d04,
-        "",
-      ],
-      [
-        18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a00,
+        6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd04,
         0000000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a03,
+        78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd00,
+        0000000000000000000000000000000000000000000000000000000000000000,
+      ],
+      [
+        78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd01,
+        e703c84e676dc11b000000000000000000000000000000000000000000000000,
+      ],
+      [
+        78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd02,
+        0000000000000000000000000000000000000000000000000000000000000000,
+      ],
+      [
+        78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd03,
         c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470,
       ],
       [
-        e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526401,
-        1bc176f2790c91e6,
-      ],
-      [
-        e6ed6c222e3985050b4fc574b136b0a42c63538e9ab970995cd418ba8e526404,
+        78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd04,
         0000000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        318dea512b6f3237a2d4763cf49bf26de3b617fb0cabe38a97807a5549df4d00,
+        a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d600,
         0000000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        18fb432d3b859ec3a1803854e8cceea75d092e52d0d4a4398d13022496745a01,
-        e703,
+        a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d601,
+        324269359967e00d000000000000000000000000000000000000000000000000,
       ],
+      [
+        a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d602,
+        0300000000000000000000000000000000000000000000000000000000000000,
+      ],
+      [
+        a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d603,
+        c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470,
+      ],
+      [
+        a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d604,
+        0000000000000000000000000000000000000000000000000000000000000000,
+      ], 
     ],
   ],
   
