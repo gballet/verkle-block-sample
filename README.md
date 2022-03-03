@@ -10,31 +10,33 @@ This README file and the associated block will be updated over time. Feedback is
 
 ## Block content
 
-This is a standard RLP block containing 3 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
+This is a standard RLP block containing 5 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
 
 ![Verkle tree](/verkle.png)
 
-**Note**: on this diagram, the leading zeroes have been drop to improve readability.
+**Note**: on this diagram, the trailing zeroes have been dropped to improve readability.
 
-This is a simple state that contains 3 accounts:
+The key `0x50...` will not be touched during the execution of this block, but the other two keys will.
+
+The initial "pre" state contains 3 regular accounts, and no contract:
 
 | Account address                              | Account component | Tree key                                                           | Value                               |
 | ---------------                              | ----------------- | --------                                                           | -----                               |
-| `0x0000000000000000000000000000000000000000` | Version           | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd00` | 0                                   |
-| `0x0000000000000000000000000000000000000000` | Balance           | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd01` | 2000000000000000999 (little endian) |
-| `0x0000000000000000000000000000000000000000` | Nonce             | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd02` | 0                                   |
-| `0x0000000000000000000000000000000000000000` | Code hash         | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd03` | (empty code hash)                   |
-| `0x0000000000000000000000000000000000000000` | Code size         | `78fdaed8ac3619d9b9520a66b57fdc16a1ed03b29ab8e9fb021c39bf8cefdd04` | 0 (no code)                         |
-| `0x0102030000000000000000000000000000000000` | Version           | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd00` | 0                                   |
-| `0x0102030000000000000000000000000000000000` | Balance           | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd01` | 999(little endian)  |
-| `0x0102030000000000000000000000000000000000` | Nonce             | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd02` | 0                                   |
-| `0x0102030000000000000000000000000000000000` | Code hash         | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd03` | (empty code hash)                   |
-| `0x0102030000000000000000000000000000000000` | Code size         | `6c99a3a0427cab63b7ab24f0683da88a1c5ed53f7b072b9e4efebd5dc412fd04` | 0 (no code)                         |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Version           | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d600` | 0                                   |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Balance           | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d601` | 999913024999998002 (little endian)  |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Nonce             | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d602` | 3                                   |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code hash         | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d603` | (empty code hash)                   |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code size         | `a365db4f33df4f95bf2ae41da5a1bc3c804c3e511e7fddff4eabd000b5c0d604` | 0 (no code)                         |
+| `0x0000000000000000000000000000000000000000` | Version           | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf900` | 0                                   |
+| `0x0000000000000000000000000000000000000000` | Balance           | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf901` | 2000000000000000999 (little endian) |
+| `0x0000000000000000000000000000000000000000` | Nonce             | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf902` | 0                                   |
+| `0x0000000000000000000000000000000000000000` | Code hash         | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf903` | (empty code hash)                   |
+| `0x0000000000000000000000000000000000000000` | Code size         | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf904` | 0 (no code)                         |
+| `0x0002030000000000000000000000000000000000` | Version           | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e00` | 0                                   |
+| `0x0002030000000000000000000000000000000000` | Balance           | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e01` | 999(little endian)  |
+| `0x0002030000000000000000000000000000000000` | Nonce             | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e02` | 0                                   |
+| `0x0002030000000000000000000000000000000000` | Code hash         | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e03` | (empty code hash)                   |
+| `0x0002030000000000000000000000000000000000` | Code size         | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e04` | 0 (no code)                         |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Version           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927200` | 0                                   |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Balance           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927201` | 999913024999998002 (little endian)  |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Nonce             | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202` | 3                                   |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code hash         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927203` | (empty code hash)                   |
+| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code size         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927204` | 0 (no code)                         |
 
 The "tree key" value is obtained by calling the `get_tree_key*` family of functions. These are the values that are reported when dumping the block's rlp:
 
@@ -435,6 +437,7 @@ These are the same addresses that are present in the RLP dump above. Note that:
    * `f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b5*` is a regular account, since no code location is declared as absent in the witness,
    * `340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b83*`, `1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba041284*` and `b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28*` are contract creation, because the witness contains the proof that some "code" leaves were absent before the execution of the block. The range `0x80..0xff` is reserved for the first code chunks of a contract.
    * `b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28*` also sets some data upon creation (one u256 word) because the witness shows that a word at offset `0x40` was absent. The range `0x40..0x7f` is reserved for the first few words of a contract's storage.
+ * Note that since stem `0x5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e*` wasn't touched, it is not present in the witness.
 
 The next step is to decode the proof from the RLP block. Some information is displayed on the screen:
 
