@@ -48,7 +48,7 @@ fn main() {
     let block: VerkleBlock = decode(&serialized).expect("could not decode verkle block");
 
     let parent_root =
-        hex::decode("6529385f1bcd860a74e6dbb6a5b9a84ec44c45cf5646f8e70fd234412a0cd753").unwrap();
+        hex::decode("1b9ac0684eb0d49102c4afb99d6d82d02061de38b84dad96fd9812ded48ddf97").unwrap();
     let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
