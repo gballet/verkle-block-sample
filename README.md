@@ -16,7 +16,7 @@ This is a standard RLP block containing 5 transactions, and an added `VerkleProo
 
 **Note**: on this diagram, the trailing zeroes have been dropped to improve readability.
 
-The key `0x50...` will not be touched during the execution of this block, but the other two keys will.
+The subtree `0x5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e*` will not be touched during the execution of this block, but the other two keys will.
 
 The initial "pre" state contains 3 regular accounts, and no contract:
 
