@@ -495,6 +495,8 @@ Breaking this down:
     * Rust and geth verkle proofs check out in the test
   * 09.02.22:
     * block proof decoding completed
+  * 03.03.22:
+    * updated to a block creating a contract
 
 ## TODO
 
