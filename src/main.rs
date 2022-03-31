@@ -1,4 +1,5 @@
 use ark_serialize::CanonicalDeserialize;
+use clap::Parser;
 use rlp::{decode, Decodable, DecoderError, Rlp};
 use std::fs::File;
 use std::io::Read;
@@ -40,15 +41,30 @@ impl Decodable for VerkleBlock {
     }
 }
 
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    #[clap(short, long, default_value = "block2.rlp")]
+    filename: String,
+
+    #[clap(
+        short,
+        long,
+        default_value = "1b9ac0684eb0d49102c4afb99d6d82d02061de38b84dad96fd9812ded48ddf97"
+    )]
+    parent_root: String,
+}
+
 fn main() {
-    let mut file = File::open("block2.rlp").expect("could not open file");
+    let args = Args::parse();
+
+    let mut file = File::open(args.filename).expect("could not open file");
     let mut serialized = Vec::<u8>::new();
     file.read_to_end(&mut serialized).unwrap();
 
     let block: VerkleBlock = decode(&serialized).expect("could not decode verkle block");
 
-    let parent_root =
-        hex::decode("1b9ac0684eb0d49102c4afb99d6d82d02061de38b84dad96fd9812ded48ddf97").unwrap();
+    let parent_root = hex::decode(args.parent_root).unwrap();
     let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
