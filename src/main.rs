@@ -89,7 +89,7 @@ fn main() {
         panic!("the proof didn't check")
     }
 
-    print!("Proof verified");
+    println!("Proof verified");
 }
 
 #[cfg(test)]
