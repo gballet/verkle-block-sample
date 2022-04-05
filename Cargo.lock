@@ -1232,10 +1232,12 @@ dependencies = [
 [[package]]
 name = "verkle-db"
 version = "0.1.0"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=11149e0a#11149e0a2a457d7c2b57ec0c4c01678d287f42ce"
 
 [[package]]
 name = "verkle-trie"
 version = "0.1.0"
+source = "git+https://github.com/crate-crypto/rust-verkle?rev=11149e0a#11149e0a2a457d7c2b57ec0c4c01678d287f42ce"
 dependencies = [
  "ark-ec",
  "ark-ff",
