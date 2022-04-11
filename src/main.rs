@@ -268,4 +268,223 @@ mod test {
         );
         assert!(valid);
     }
+
+    #[test]
+    fn condrieu_block_283() {
+        let db = MemoryDb::new();
+        let mut trie = Trie::new(TestConfig::new(db));
+
+        let keys: Vec<[u8; 32]> = vec![
+            hex::decode("6766d007d8fd90ea45b2ac9027ff04fa57e49527f11010a12a73f58ffa580800")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("6766d007d8fd90ea45b2ac9027ff04fa57e49527f11010a12a73f58ffa580801")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("6766d007d8fd90ea45b2ac9027ff04fa57e49527f11010a12a73f58ffa580802")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("6766d007d8fd90ea45b2ac9027ff04fa57e49527f11010a12a73f58ffa580803")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("6766d007d8fd90ea45b2ac9027ff04fa57e49527f11010a12a73f58ffa580804")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd00")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd01")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd02")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd04")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+        let values = vec![
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("cbf0245862edde191e0200000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0900000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e0f8d1ffa7cc525fe23b00000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0200000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        let absent_keys = vec![
+            hex::decode("0b373ba3992dde5cfee854e1a786559ba0b6a13d376550c1ed58c00dc9706f00")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0b373ba3992dde5cfee854e1a786559ba0b6a13d376550c1ed58c00dc9706f02")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0b373ba3992dde5cfee854e1a786559ba0b6a13d376550c1ed58c00dc9706f03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0b373ba3992dde5cfee854e1a786559ba0b6a13d376550c1ed58c00dc9706f75")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0b373ba3992dde5cfee854e1a786559ba0b6a13d376550c1ed58c00dc9706f80")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0bfc1ece8fb78ece3cba37063d607e9801a50509feb7fc7533522f6670418800")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0bfc1ece8fb78ece3cba37063d607e9801a50509feb7fc7533522f6670418802")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0bfc1ece8fb78ece3cba37063d607e9801a50509feb7fc7533522f6670418803")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("91faf3920905ef6a9f7b9c57ff3e49dbb8727271955061c26f2fb220ba6dfd00")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("91faf3920905ef6a9f7b9c57ff3e49dbb8727271955061c26f2fb220ba6dfd01")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("91faf3920905ef6a9f7b9c57ff3e49dbb8727271955061c26f2fb220ba6dfd02")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("91faf3920905ef6a9f7b9c57ff3e49dbb8727271955061c26f2fb220ba6dfd03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("91faf3920905ef6a9f7b9c57ff3e49dbb8727271955061c26f2fb220ba6dfd04")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8300")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8301")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8302")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8303")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8304")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8380")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8381")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8382")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8383")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("9b5c07351e1938b60443e64a7fbda33533355ccc3b9b1eb64b653b78d09c8384")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        for (idx, key) in keys.iter().enumerate() {
+            trie.insert_single(key.clone(), values[idx]);
+        }
+        let root_hash = trie.root_hash();
+        println!("root hash = {:?}", hex::encode(scalar_to_array(&root_hash)));
+        let vp = trie.create_verkle_proof(
+            keys.clone()
+                .into_iter()
+                .chain(absent_keys.clone().into_iter()),
+        );
+        let mut bytes = Vec::new();
+        vp.write(&mut bytes).unwrap();
+        println!("{}", hex::encode(bytes));
+
+        let (checked, _) = vp.check(
+            keys.into_iter()
+                .chain(absent_keys.clone().into_iter())
+                .collect(),
+            values
+                .iter()
+                .map(|v| {
+                    Some(
+                        v.to_vec()
+                            .try_into()
+                            .expect("could not convert value into [u8; 32]"),
+                    )
+                })
+                .chain(absent_keys.iter().map(|_| None))
+                .collect(),
+            trie.root_commitment(),
+        );
+        assert!(checked);
+    }
 }
