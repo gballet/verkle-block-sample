@@ -311,10 +311,6 @@ mod test {
                 .unwrap()
                 .try_into()
                 .unwrap(),
-            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd04")
-                .unwrap()
-                .try_into()
-                .unwrap(),
         ];
         let values = vec![
             hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
@@ -350,10 +346,6 @@ mod test {
                 .try_into()
                 .unwrap(),
             hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
-                .unwrap()
-                .try_into()
-                .unwrap(),
-            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
                 .unwrap()
                 .try_into()
                 .unwrap(),
@@ -457,6 +449,19 @@ mod test {
         for (idx, key) in keys.iter().enumerate() {
             trie.insert_single(key.clone(), values[idx]);
         }
+
+        // this key is present in the tree, but its presence isn't being proven
+        trie.insert_single(
+            hex::decode("9f2a59ea98d7cb610eff49447571e1610188937ce9266c6b4ded1b6ee37ecd04")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        );
+
         let root_hash = trie.root_hash();
         println!("root hash = {:?}", hex::encode(scalar_to_array(&root_hash)));
         let vp = trie.create_verkle_proof(
