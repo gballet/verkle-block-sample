@@ -32,11 +32,11 @@ The initial "pre" state contains 3 regular accounts, and no contract:
 | `0x0002030000000000000000000000000000000000` | Nonce             | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e02` | 0                                   |
 | `0x0002030000000000000000000000000000000000` | Code hash         | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e03` | (empty code hash)                   |
 | `0x0002030000000000000000000000000000000000` | Code size         | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e04` | 0 (no code)                         |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Version           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927200` | 0                                   |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Balance           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927201` | 999913024999998002 (little endian)  |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Nonce             | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202` | 3                                   |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code hash         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927203` | (empty code hash)                   |
-| `0x0071562b71999873DB5b286dF957af199Ec94617` | Code size         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927204` | 0 (no code)                         |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Version           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927200` | 0                                   |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Balance           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927201` | 999913024999998002 (little endian)  |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Nonce             | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202` | 3                                   |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Code hash         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927203` | (empty code hash)                   |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Code size         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927204` | 0 (no code)                         |
 
 The "tree key" value is obtained by calling the `get_tree_key*` family of functions. These are the values that are reported when dumping the block's rlp:
 
