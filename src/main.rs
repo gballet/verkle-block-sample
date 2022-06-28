@@ -3,7 +3,7 @@ use clap::Parser;
 use rlp::{decode, Decodable, DecoderError, Rlp};
 use std::fs::File;
 use std::io::Read;
-use verkle_trie::EdwardsProjective;
+use verkle_trie::Element;
 
 mod keyvals;
 mod proof;
@@ -65,7 +65,7 @@ fn main() {
     let block: VerkleBlock = decode(&serialized).expect("could not decode verkle block");
 
     let parent_root = hex::decode(args.parent_root).unwrap();
-    let root: EdwardsProjective = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
+    let root: Element = CanonicalDeserialize::deserialize(&parent_root[..]).unwrap();
 
     println!(
         "de-serialized block:\n- parent hash: {}\n- storage root: {}\n- block number: {}\n- key, value list:",
@@ -104,7 +104,6 @@ mod test {
 
     fn scalar_to_array(scalar: &Fr) -> [u8; 32] {
         let mut bytes = [0u8; 32];
-        use ark_serialize::CanonicalSerialize;
         scalar.serialize_uncompressed(&mut bytes[..]).unwrap();
         bytes
     }
@@ -491,5 +490,70 @@ mod test {
             trie.root_commitment(),
         );
         assert!(checked);
+    }
+
+    #[test]
+    fn condrieu_block_1190() {
+        let db = MemoryDb::new();
+        let mut trie = Trie::new(TestConfig::new(db));
+
+        let keys: Vec<[u8; 32]> = vec![
+            hex::decode("694dc6ea427eea992996e5dfa6992eb0434d7e305574cf74f45226538e34a800")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("69596485f622c118c15dd39dbeb6187996d925687f61966e19e3339d90140a03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e4acdc8de380f2b37191ccafa9f9dadf70d48ea24ee3cb5b866f1e5b1d3c615d")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e4f1872b1681742a8d126266a635dd9a4f6c560cb7ae2707805f304e5df60b00")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        let values = vec![
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("0000000000000000000000000000000000000000000000000000000000000000")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        let absent_keys = vec![
+            hex::decode("695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf902")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+            hex::decode("e4f88f8c09077a0f433ce5873ae741ede1ff4577cc4198b3a4a0f880a6cc8f03")
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ];
+
+        for (idx, key) in keys.iter().enumerate() {
+            trie.insert_single(key.clone(), values[idx]);
+        }
+        let root_hash = trie.root_hash();
+        let vp = trie.create_verkle_proof(
+            absent_keys.clone().into_iter(),
+        );
+        let mut bytes = Vec::new();
+        vp.write(&mut bytes).unwrap();
     }
 }
