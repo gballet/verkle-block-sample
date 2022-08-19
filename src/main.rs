@@ -551,9 +551,7 @@ mod test {
             trie.insert_single(key.clone(), values[idx]);
         }
         let _root_hash = trie.root_hash();
-        let vp = trie.create_verkle_proof(
-            absent_keys.clone().into_iter(),
-        );
+        let vp = trie.create_verkle_proof(absent_keys.clone().into_iter());
         let mut bytes = Vec::new();
         vp.write(&mut bytes).unwrap();
     }
