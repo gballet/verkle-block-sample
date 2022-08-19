@@ -15,4 +15,3 @@ impl Decodable for Proof {
         })
     }
 }
-
