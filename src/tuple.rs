@@ -11,19 +11,19 @@ impl Decodable for Tuple {
 }
 
 impl TryInto<([u8; 32], Option<[u8; 32]>)> for Tuple {
-    type Error = String;
+    type Error = <Vec<u8> as TryInto<[u8; 32]>>::Error;
     fn try_into(
         self,
-    ) -> std::result::Result<
+    ) -> Result<
         ([u8; 32], Option<[u8; 32]>),
-        <Self as TryInto<([u8; 32], Option<[u8; 32]>)>>::Error,
+        Self::Error,
     > {
         let mut second = None;
 
         if self.1.len() > 0 {
-            second = Some(self.1.try_into().unwrap());
+            second = Some(self.1.try_into()?);
         }
 
-        Ok((self.0.try_into().unwrap(), second))
+        Ok((self.0.try_into()?, second))
     }
 }
