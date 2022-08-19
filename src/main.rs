@@ -37,7 +37,7 @@ impl Decodable for VerkleBlock {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
         let headerrlp = rlp.at(0)?;
         let header: VerkleHeader = VerkleHeader::decode(&headerrlp)?;
-        Ok(VerkleBlock { header: header })
+        Ok(VerkleBlock { header })
     }
 }
 

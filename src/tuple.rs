@@ -14,7 +14,7 @@ impl Decodable for Tuple {
                 "Invalid key length in (key, value) tuple",
             ));
         }
-        if two.len() != 32 && two.len() != 0 {
+        if two.len() != 32 && !two.is_empty() {
             return Err(DecoderError::Custom(
                 "Invalid value length in (key, value) tuple",
             ));

@@ -13,9 +13,6 @@ impl Decodable for KeyVals {
             .map(|r| r.as_val::<Tuple>().unwrap().into())
             .unzip();
 
-        Ok(KeyVals {
-            keys: keys,
-            values: values,
-        })
+        Ok(KeyVals { keys, values })
     }
 }

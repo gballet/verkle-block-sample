@@ -8,7 +8,7 @@ pub(crate) struct Proof {
 impl Decodable for Proof {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
         let serialized_proof = rlp.data()?;
-        let proof = VerkleProof::read(&serialized_proof[..]).unwrap();
+        let proof = VerkleProof::read(serialized_proof).unwrap();
 
         Ok(Proof {
             verkle_proof: proof,
