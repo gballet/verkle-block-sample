@@ -104,6 +104,7 @@ mod test {
 
     fn scalar_to_array(scalar: &Fr) -> [u8; 32] {
         let mut bytes = [0u8; 32];
+        use ark_serialize::CanonicalSerialize;
         scalar.serialize_uncompressed(&mut bytes[..]).unwrap();
         bytes
     }
@@ -549,7 +550,7 @@ mod test {
         for (idx, key) in keys.iter().enumerate() {
             trie.insert_single(key.clone(), values[idx]);
         }
-        let root_hash = trie.root_hash();
+        let _root_hash = trie.root_hash();
         let vp = trie.create_verkle_proof(
             absent_keys.clone().into_iter(),
         );

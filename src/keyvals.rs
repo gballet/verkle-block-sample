@@ -1,6 +1,5 @@
 use super::tuple::Tuple;
 use rlp::{Decodable, DecoderError, Rlp};
-use std::convert::TryInto;
 
 pub struct KeyVals {
     pub keys: Vec<[u8; 32]>,
