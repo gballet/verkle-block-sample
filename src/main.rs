@@ -5,11 +5,11 @@ use std::fs::File;
 use std::io::Read;
 use verkle_trie::Element;
 
-mod keyvals;
-mod proof;
+pub mod keyvals;
+pub mod proof;
 pub(crate) mod tuple;
 
-struct VerkleHeader {
+pub struct VerkleHeader {
     parent_hash: Vec<u8>,
     storage_root: Vec<u8>,
     number: Vec<u8>,
@@ -29,7 +29,7 @@ impl Decodable for VerkleHeader {
     }
 }
 
-struct VerkleBlock {
+pub struct VerkleBlock {
     header: VerkleHeader,
 }
 
