@@ -1288,6 +1288,7 @@ dependencies = [
  "bytebuffer",
  "clap 3.1.6",
  "hex",
+ "itertools",
  "rlp",
  "verkle-trie",
 ]

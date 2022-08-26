@@ -6,12 +6,14 @@ pub struct KeyVals {
     pub values: Vec<Option<[u8; 32]>>,
 }
 
+fn as_val(r: Rlp) -> Result<([u8; 32], Option<[u8; 32]>), DecoderError> {
+    Ok(r.as_val::<Tuple>()?.into())
+}
+
 impl Decodable for KeyVals {
     fn decode(rlp: &Rlp<'_>) -> Result<Self, DecoderError> {
-        let (keys, values): (Vec<[u8; 32]>, Vec<Option<[u8; 32]>>) = rlp
-            .iter()
-            .map(|r| r.as_val::<Tuple>().unwrap().into())
-            .unzip();
+        let result = itertools::process_results(rlp.iter().map(|r| as_val(r)), |iter| iter.unzip());
+        let (keys, values): (Vec<[u8; 32]>, Vec<Option<[u8; 32]>>) = result?;
 
         Ok(KeyVals { keys, values })
     }

@@ -11,6 +11,7 @@ rlp = "^0.5.1"
 ark-serialize = { version = "0.3.0", default-features = false }
 hex = "0.4.3"
 clap = { version = "3.1.6", features = ["derive"] }
+itertools = "^0.10.3"
 
 [dev-dependencies]
 bytebuffer = "0.2.1"
