@@ -10,6 +10,8 @@ This README file and the associated block will be updated over time. Feedback is
 
 ## Block content
 
+**NOTE: The curve has changed from bandersnatch to banderwagon, and the latest `master` can no longer decode the sample block, use tag `bandersnatch` to verify this block.**
+
 This is a standard RLP block containing 5 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
 
 ![Verkle tree](/verkle.png)
