@@ -1,9 +1,9 @@
+use ark_serialize::CanonicalDeserialize;
+use block_verkle_proof_extractor::{Element, VerkleBlock};
 use clap::Parser;
 use rlp::decode;
 use std::fs::File;
-use ark_serialize::CanonicalDeserialize;
 use std::io::Read;
-use block_verkle_proof_extractor::{Element, VerkleBlock};
 
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -22,7 +22,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-        let mut file = File::open(args.filename).expect("could not open file");
+    let mut file = File::open(args.filename).expect("could not open file");
     let mut serialized = Vec::<u8>::new();
     file.read_to_end(&mut serialized).unwrap();
 

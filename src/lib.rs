@@ -1,5 +1,5 @@
-pub use verkle_trie::Element;
 use rlp::{Decodable, DecoderError, Rlp};
+pub use verkle_trie::Element;
 
 pub mod keyvals;
 pub mod proof;
