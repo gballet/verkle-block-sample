@@ -15,3 +15,10 @@ itertools = "^0.10.3"
 
 [dev-dependencies]
 bytebuffer = "0.2.1"
+
+[lib]
+name = "block_verkle_proof_extractor"
+
+[[bin]]
+name = "block_verifier"
+path = "src/block_verifier.rs"

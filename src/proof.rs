@@ -1,7 +1,7 @@
 use rlp::{Decodable, DecoderError, Rlp};
 use verkle_trie::proof::VerkleProof;
 
-pub(crate) struct Proof {
+pub struct Proof {
     pub verkle_proof: VerkleProof,
 }
 
