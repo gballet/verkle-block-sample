@@ -1,3 +1,5 @@
+[![Rust](https://github.com/gballet/verkle-block-sample/actions/workflows/rust.yml/badge.svg)](https://github.com/gballet/verkle-block-sample/actions/workflows/rust.yml)
+
 # Example of a block root with a Verkle state root
 
 ## Purpose
