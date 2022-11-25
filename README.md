@@ -12,35 +12,33 @@ This README file and the associated block will be updated over time. Feedback is
 
 ## Block content
 
-**NOTE: The curve has changed from bandersnatch to banderwagon, and the latest `master` can no longer decode the sample block, use tag `bandersnatch` to verify this block.**
-
 This is a standard RLP block containing 5 transactions, and an added `VerkleProof` field at the end of the block header. The proof is defined against the following pre-state:
 
 ![Verkle tree](/verkle.png)
 
 **Note**: on this diagram, the trailing zeroes have been dropped to improve readability.
 
-The subtree `0x5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e*` will not be touched during the execution of this block, but the other two keys will.
+The subtree `0x87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf*` will not be touched during the execution of this block, but the other two keys will.
 
 The initial "pre" state contains 3 regular accounts, and no contract:
 
 | Account address                              | Account component | Tree key                                                           | Value                               |
 | ---------------                              | ----------------- | --------                                                           | -----                               |
-| `0x0000000000000000000000000000000000000000` | Version           | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf900` | 0                                   |
-| `0x0000000000000000000000000000000000000000` | Balance           | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf901` | 2000000000000000999 (little endian) |
-| `0x0000000000000000000000000000000000000000` | Nonce             | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf902` | 0                                   |
-| `0x0000000000000000000000000000000000000000` | Code hash         | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf903` | (empty code hash)                   |
-| `0x0000000000000000000000000000000000000000` | Code size         | `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf904` | 0 (no code)                         |
-| `0x0002030000000000000000000000000000000000` | Version           | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e00` | 0                                   |
-| `0x0002030000000000000000000000000000000000` | Balance           | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e01` | 999(little endian)  |
-| `0x0002030000000000000000000000000000000000` | Nonce             | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e02` | 0                                   |
-| `0x0002030000000000000000000000000000000000` | Code hash         | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e03` | (empty code hash)                   |
-| `0x0002030000000000000000000000000000000000` | Code size         | `5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e04` | 0 (no code)                         |
-| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Version           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927200` | 0                                   |
-| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Balance           | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927201` | 999913024999998002 (little endian)  |
-| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Nonce             | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202` | 3                                   |
-| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Code hash         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927203` | (empty code hash)                   |
-| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Code size         | `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927204` | 0 (no code)                         |
+| `0x0000000000000000000000000000000000000000` | Version           | `bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1900` | 0                                   |
+| `0x0000000000000000000000000000000000000000` | Balance           | `bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1901` | 2000000000000000999 (little endian) |
+| `0x0000000000000000000000000000000000000000` | Nonce             | `bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1902` | 0                                   |
+| `0x0000000000000000000000000000000000000000` | Code hash         | `bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1903` | (empty code hash)                   |
+| `0x0000000000000000000000000000000000000000` | Code size         | `bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1904` | 0 (no code)                         |
+| `0x0002030000000000000000000000000000000000` | Version           | `87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf00` | 0                                   |
+| `0x0002030000000000000000000000000000000000` | Balance           | `87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf01` | 999(little endian)  |
+| `0x0002030000000000000000000000000000000000` | Nonce             | `87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf02` | 0                                   |
+| `0x0002030000000000000000000000000000000000` | Code hash         | `87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf03` | (empty code hash)                   |
+| `0x0002030000000000000000000000000000000000` | Code size         | `87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf04` | 0 (no code)                         |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Version           | `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1600` | 0                                   |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Balance           | `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1601` | 999913024999998002 (little endian)  |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Nonce             | `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1602` | 3                                   |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Code hash         | `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1603` | (empty code hash)                   |
+| `0x71562b71999873DB5b286dF957af199Ec94617f7` | Code size         | `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1604` | 0 (no code)                         |
 
 The "tree key" value is obtained by calling the `get_tree_key*` family of functions. These are the values that are reported when dumping the block's rlp:
 
@@ -49,241 +47,230 @@ The "tree key" value is obtained by calling the `get_tree_key*` family of functi
 [
   # Block header
   [
-    452eec13f7f71652565aeeed4b755363c1cb75e9e1d009b122d40c52675f8934,
+    904e3f9205902a780563d861aaa9cd1d635597ad1893a92d7f83dc5fb51b6eb4,
     1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347,
     0000000000000000000000000000000000000000,
-    4577df614497da7ac2f1b4f361d7008036d96d4b8c389279abf5b7c55a35a821,
+    350f40f771a73cd6bda4c37283b88c771179469b07633568b6047cf649b8c7d1,
     5f25ec3493913aef80e3d1d99e653321be3db3b16c3c83b82e6081cdce66a55c,
-    1d929202540d18476cdd9b3f62ef5659928d9a72ce3f57f38c58cc83777f1b54,
+    8d7a148023d3a4612e85b2f142dcec65c358ab7fbd3aebdfef6868c018d44e3c,
     00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
     020000,
-    02,		# Block number
+    02, # Block number
     47e7c4,
-    0588c3,
+    05802b,
     14,
     "",
     0000000000000000000000000000000000000000000000000000000000000000,
     0000000000000000,
-    2de8eac1,
-   
+    2de81128,
+
     # The proof   
-000000000600000008080a08080a04000000aef5560376842597497caaaaef2fd176fa0583f6a9a85ed6f6213fb36ddd55164b084aefe7c95d371d42ba690a950e9144b78b1be51b037cf2c7282d8d015bd766309eec949a662a6d12ee3fba98d5515a91f7965808f760b5b2069da272670ad24543030c25a08399df898b9f3f8f1e0efb9c96ffa79402fdfaab7e9c522e8cdf3d789325e7703553323229266693aec748aa8f5ec4ffdee871023036cf3350e5d55291f0a273ddb1e4624896aa1f09357091dafaae5e1492079d71b112bc5bae533b83aa9ca480b720cd081ac25e7afc94e8e0b307fb23d25f8485462622b5cc45eee1a2d2868714490ff6d8ff6d07e63e326bf3a8a34623d75291a896af85f26865d232a15aa965336a6ce176e07765aa62b4600e2ed7d0b3aaa29c6e27db1ee59e45d4f30a9712f6c855016fe2e73fcc27aca441a001a527e88775bd1f99c621a982cbd72292ed0f70e073a469876cc6ef370c844bb455dc7f142131979855abd267aeea841c105e3717866b4ab2e2d7d7e61d823fe875c5fac7a74a4865c42ab615998ec69f4bdda1389ed192ffa480ecc6b9d1bdb2e26fae2af651b2ddabbfa114e56b6ed3edb6e96939aa44070fb7db95ae6ede6b5cbbf441751530c5d6bed9c1684ae87e4b1e7dcc045be2cf500ba9a818db500eaefac93bc5ce83d473cab88efa2a450eb3dd6d343d043590318f7fc324b9ba4512d3e422864bb139c51c795cdc8da7728c88a05d7e350e1cfaabfcc786a6bc3c7c992926553e2cb9e0e6222807a8869d16ab90634fb70eeabd8e2ea9f42e5d095c7c44c6f7919ed5fe3b58ba78a715d7a10522506f0ad45bb8ba4a8e7d2b89af676ccb46e1974cc01b172d8e5c0ae30e4d9d2722d55bd5f6fc3c2799fae0845ed2f82272e632672b33c58137fc6a813b7f183ff482b718693e4523289f1412196e07fe7f127af2063114ec6c2872712ca79458c21a9624be920f33f3858a1a224f7378994b29ad06,
-    
+    0000000006000000080a0a0808080400000055fc28df8d54aef6ffb43695ef3fed55993ae008dc033c36bb48d3efa131e7d85c3e125f152e0b296a8fc6a7506c52ea7cf364a85d2f38425c495845b8e5fcaa621c65eed175759bed2c1293ba153fcbcc03a77ec5b8be6a70525284fadfe5ce2c40ed9e5cc59ec79c1f64558e7712705119f5b6adba6abe67b0a85eea6a57a372012d816767142d06b30a45da766d3453d5eea9f411e6ee25ab672da1580d09606162ddc947c873020f4e251c671b680146bffe0ce1a26d6a426f00a3206a7a59be7ae8bf499671db45344db4de2d610c2e7788dadf3c3798ffdaba155028566f1499f496b9fd0507954835c425270f3b08c68ab5475b7fea7dcb4de1fabb9b2c7ef6dcb3858f66ef02925afb5fddc6be130d470a7613058d3bf176cb5fa53d1b778f4f1f4b3b176af9fd234be9844f065a650a3facc3f18550948ae0eb8cb92a48a0a0413bd051054e27e359834a584c63da39cc094deac2c2290f60c6066b400efec9f3cbb4428d5972c2829a1dbaab6363507e1b4391210e26d3a03ada6e3384cf4db8a53f35bc30fbb1015104658e94160f29ac7becd4e75bfa8e46864216069023ab2a2c12a2be1c8ceed81c05645b3c6f9023339af49e62626e5b890c710c6d4c15c0b0fc72bcf3e609c3687b85ebde41101b1a7487d64a0edaf56bb9125ab05310b17001004453ad8e7ec56a804a97f9f39218488fbdcb6d90a7a95f1a965420c7cda79b8436cac411c00996466b19cb4591f17bba2014d0d7de150e6042fec3a7a55f4cc4114b8b85322d6694abbedd1c2acad8a2a41908f60d9ee30ed851b6a47e5ad2fe9aa22d5c26e11c2e4e04a76f8ebb6d8a7b7e265e9a032463508bbf4f7304b5d353b65bb49b22abbc3316675c793171e3d5234a5f71526d32e70de0056d4c9225dc65c35adbc36c2eb184db805662cb10e9ecb34553b909b4ac2e49eb5558dcf2d6fe86a0bff9d7d21f57c78bd2ed82e125e78f2c2ea91b,
+
     # List of (key, values) in the witness
     [
       [
-        1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128400,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce00,
         "",
       ],
       [
-        1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128401,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce01,
         "",
       ],
       [
-        1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128402,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce02,
         "",
       ],
       [
-        1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128403,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce03,
         "",
       ],
       [
-        1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128404,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce04,
         "",
       ],
       [
-        1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128480,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce80,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8300,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce81,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8301,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce82,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8302,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce83,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8303,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce84,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8304,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce85,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8380,
+        0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce86,
         "",
       ],
       [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8381,
-        "",
-      ],
-      [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8382,
-        "",
-      ],
-      [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8383,
-        "",
-      ],
-      [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8384,
-        "",
-      ],
-      [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8385,
-        "",
-      ],
-      [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8386,
-        "",
-      ],
-      [
-        340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8387,
-        "",
-      ],
-      [
-        695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf900,
+        274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1600,
         0000000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf901,
-        e703c84e676dc11b000000000000000000000000000000000000000000000000,
+        274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1601,
+        32c649ae8d68e00d000000000000000000000000000000000000000000000000,
       ],
       [
-        695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf902,
-        0000000000000000000000000000000000000000000000000000000000000000,
-      ],
-      [
-        695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf903,
-        c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470,
-      ],
-      [
-        695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf904,
-        0000000000000000000000000000000000000000000000000000000000000000,
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2800,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2801,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2802,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2803,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2840,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2880,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2881,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2882,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2883,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d288c,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a4,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a5,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a6,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a7,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a8,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a9,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28aa,
-        "",
-      ],
-      [
-        b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28ab,
-        "",
-      ],
-      [
-        f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b500,
-        "",
-      ],
-      [
-        f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b501,
-        "",
-      ],
-      [
-        f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b502,
-        "",
-      ],
-      [
-        f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b503,
-        "",
-      ],
-      [
-        f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b504,
-        "",
-      ],
-      [
-        f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927200,
-        0000000000000000000000000000000000000000000000000000000000000000,
-      ],
-      [
-        f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927201,
-        324269359967e00d000000000000000000000000000000000000000000000000,
-      ],
-      [
-        f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202,
+        274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1602,
         0300000000000000000000000000000000000000000000000000000000000000,
       ],
       [
-        f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927203,
+        bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1900,
+        0000000000000000000000000000000000000000000000000000000000000000,
+      ],
+      [
+        bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1901,
+        e703c84e676dc11b000000000000000000000000000000000000000000000000,
+      ],
+      [
+        bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1902,
+        0000000000000000000000000000000000000000000000000000000000000000,
+      ],
+      [
+        bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1903,
         c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470,
       ],
       [
-        f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927204,
-        0000000000000000000000000000000000000000000000000000000000000000,
+        bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1904,
+        "",
+      ],
+      [
+        cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071400,
+        "",
+      ],
+      [
+        cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071401,
+        "",
+      ],
+      [
+        cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071402,
+        "",
+      ],
+      [
+        cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071403,
+        "",
+      ],
+      [
+        cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071404,
+        "",
+      ],
+      [
+        d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b00,
+        "",
+      ],
+      [
+        d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b01,
+        "",
+      ],
+      [
+        d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b02,
+        "",
+      ],
+      [
+        d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b03,
+        "",
+      ],
+      [
+        d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b04,
+        "",
+      ],
+      [
+        d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b80,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c00,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c01,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c02,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c03,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c40,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c80,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c81,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c82,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c83,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c8c,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca4,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca5,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca6,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca7,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca8,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca9,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771caa,
+        "",
+      ],
+      [
+        ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771cab,
+        "",
       ],
     ],
   ],
-  
-  # Transaction list
+
+  # Block body
   [
+    # List of transactions
     [
       03,
       342770c0,
@@ -342,7 +329,6 @@ The "tree key" value is obtained by calling the `get_tree_key*` family of functi
   ],
   [],
 ]
-
 ```
 
 ## Verkle proof format
@@ -364,8 +350,8 @@ The block that is provided, can be decyphered with the program provided in this 
 > cargo run
 (...)
 de-serialized block:
-- parent hash: 452eec13f7f71652565aeeed4b755363c1cb75e9e1d009b122d40c52675f8934
-- storage root: 4577df614497da7ac2f1b4f361d7008036d96d4b8c389279abf5b7c55a35a821
+- parent hash: 904e3f9205902a780563d861aaa9cd1d635597ad1893a92d7f83dc5fb51b6eb4
+- storage root: 350f40f771a73cd6bda4c37283b88c771179469b07633568b6047cf649b8c7d1
 - block number: 02
 ```
 
@@ -373,58 +359,55 @@ The program starts by dumping some information related to the block: it's block 
 
 ```
 - key, value list:
-	1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128400 is absent
-	1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128401 is absent
-	1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128402 is absent
-	1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128403 is absent
-	1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128404 is absent
-	1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba04128480 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8300 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8301 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8302 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8303 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8304 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8380 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8381 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8382 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8383 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8384 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8385 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8386 is absent
-	340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b8387 is absent
-	695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf900 => 0000000000000000000000000000000000000000000000000000000000000000
-	695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf901 => e703c84e676dc11b000000000000000000000000000000000000000000000000
-	695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf902 => 0000000000000000000000000000000000000000000000000000000000000000
-	695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf903 => c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
-	695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf904 => 0000000000000000000000000000000000000000000000000000000000000000
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2800 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2801 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2802 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2803 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2840 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2880 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2881 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2882 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d2883 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d288c is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a4 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a5 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a6 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a7 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a8 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28a9 is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28aa is absent
-	b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28ab is absent
-	f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b500 is absent
-	f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b501 is absent
-	f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b502 is absent
-	f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b503 is absent
-	f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b504 is absent
-	f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927200 => 0000000000000000000000000000000000000000000000000000000000000000
-	f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927201 => 324269359967e00d000000000000000000000000000000000000000000000000
-	f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202 => 0300000000000000000000000000000000000000000000000000000000000000
-	f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927203 => c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
-	f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927204 => 0000000000000000000000000000000000000000000000000000000000000000
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce00 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce01 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce02 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce03 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce04 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce80 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce81 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce82 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce83 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce84 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce85 is absent
+	0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce86 is absent
+	274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1600 => 0000000000000000000000000000000000000000000000000000000000000000
+	274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1601 => 32c649ae8d68e00d000000000000000000000000000000000000000000000000
+	274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1602 => 0300000000000000000000000000000000000000000000000000000000000000
+	bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1900 => 0000000000000000000000000000000000000000000000000000000000000000
+	bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1901 => e703c84e676dc11b000000000000000000000000000000000000000000000000
+	bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1902 => 0000000000000000000000000000000000000000000000000000000000000000
+	bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1903 => c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+	bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1904 is absent
+	cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071400 is absent
+	cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071401 is absent
+	cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071402 is absent
+	cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071403 is absent
+	cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071404 is absent
+	d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b00 is absent
+	d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b01 is absent
+	d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b02 is absent
+	d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b03 is absent
+	d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b04 is absent
+	d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b80 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c00 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c01 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c02 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c03 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c40 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c80 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c81 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c82 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c83 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c8c is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca4 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca5 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca6 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca7 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca8 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771ca9 is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771caa is absent
+	ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771cab is absent
 ```
 
 These are the same addresses that are present in the RLP dump above. Note that:
@@ -434,22 +417,21 @@ These are the same addresses that are present in the RLP dump above. Note that:
    * keys ending in `02`: an account nonce
    * keys ending in `03`: is the code hash of the account
    * keys ending in `04`: an the code size of the account
-   * the 3 aforementioned transactions have a "stem" of either: `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e9272` (pre-existing account), `695921dca3b16c5cc850e94cdd63f573c467669e89cec88935d03474d6bdf901` (pre-existing account), and `f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b500` (newly created account)
- * numbers are **little endian**-endcoded. For example, the address `f56e644224f4576490cfe0de1424a4532212529bfe374713d84e7d7e8e927202` represents nonce `3` for an account, and the number 3 is the left-most byte.
+   * the 3 aforementioned transactions have a "stem" of either: `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd16` (pre-existing account), `bf101a6e1c8e83c11bd203a582c7981b91097ec55cbd344ce09005c1f26d1901` (pre-existing account), and `f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b500` (newly created account)
+ * numbers are **little endian**-endcoded. For example, the address `274cde18dd9dbb04caf16ad5ee969c19fe6ca764d5688b5e1d419f4ac6cd1602` represents nonce `3` for an account, and the number 3 is the left-most byte.
  * "absent" values mean that, before block 2 was executed, these keys were missing and are set for the first time during the execution of the block.
  * 4 new accounts are created during the execution of this block, so there are 4 "groups" of absent values: 
-   * `f286609cc1a51fb9bd96dacc5be743d8cdcee2d58a9ea76688e8fa1096a3b5*` is a regular account, since no code location is declared as absent in the witness,
-   * `340d7bcf5014d837c13b31e68fd8ce965fe36c7900aceac5a51187c2559b83*`, `1fa091c7b912595422432f4221cc364b81a80f31a3a7f7b6697e05ba041284*` and `b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28*` are contract creation, because the witness contains the proof that some "code" leaves were absent before the execution of the block. The range `0x80..0xff` is reserved for the first code chunks of a contract.
-   * `b0eddfec049575da2cf70b958bdf65a735476327cee6af287a30b960ba6d28*` also sets some data upon creation (one u256 word) because the witness shows that a word at offset `0x40` was absent. The range `0x40..0x7f` is reserved for the first few words of a contract's storage.
- * Note that since stem `0x5010fabfb319bf84136db68445972cdd5476ff2fbf3e5133330b3946b84b4e*` wasn't touched, it is not present in the witness.
+   * `cac9a3e8dd152c9b5f8abcd254f1abe57d4acde35cfe0f919b43e6f093071*` is a regular account, since no code location is declared as absent in the witness,
+   * `0785762a8d643f3892d163f783fe1d37e4e5cf63d2b08dff0dead8cdf0b7ce*`, `ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c*` and `d141d84155cf135593f0ac888e4af96c360bbc4d82dd9164311b3932ab9b9b*` are contract creation, because the witness contains the proof that some "code" leaves were absent before the execution of the block. The range `0x80..0xff` is reserved for the first code chunks of a contract.
+   * `ddb1869fe308ddab3660375687fd2a3f94434c961ed68fc8beb6fc8459771c40*` also sets some data upon creation (one u256 word) because the witness shows that a word at offset `0x40` was absent. The range `0x40..0x7f` is reserved for the first few words of a contract's storage.
+ * Note that since stem `0x87b1ab04d20704398264fcc43eb9e9b1839b1595fcb8e9cd3b8071694658bf*` wasn't touched, it is not present in the witness.
 
 The next step is to decode the proof from the RLP block. Some information is displayed on the screen:
 
 ```
 Verkle proof:
- * verification hints: 1 1 1 1 1 1 None None Present None None Present 
- * commitments: aef5560376842597497caaaaef2fd176fa0583f6a9a85ed6f6213fb36ddd5516 4b084aefe7c95d371d42ba690a950e9144b78b1be51b037cf2c7282d8d015bd7 66309eec949a662a6d12ee3fba98d5515a91f7965808f760b5b2069da272670a d24543030c25a08399df898b9f3f8f1e0efb9c96ffa79402fdfaab7e9c522e8c 
-
+ * verification hints: 1 1 1 1 1 1 None Present Present None None None 
+ * commitments: 55fc28df8d54aef6ffb43695ef3fed55993ae008dc033c36bb48d3efa131e7d8 5c3e125f152e0b296a8fc6a7506c52ea7cf364a85d2f38425c495845b8e5fcaa 621c65eed175759bed2c1293ba153fcbcc03a77ec5b8be6a70525284fadfe5ce 2c40ed9e5cc59ec79c1f64558e7712705119f5b6adba6abe67b0a85eea6a57a3
 ```
 
 The six `1` indicate that there are six "stems", and that they are at depth 1. There are two `Present`, indicating that two stems were present in the tree (corresponding to the two existing accounts). There are 4 `None` indicating that four stems were absent until this block, and they correspond to the four account creations. Then, the commitments used in the proof are listed.
@@ -504,6 +486,9 @@ Breaking this down:
     * block proof decoding completed
   * 03.03.22:
     * updated to a block creating a contract
+  * 25.11.22:
+    * updated to banderwagon values
+    * fixed a missing proof dump in utility
 
 ## TODO
 
