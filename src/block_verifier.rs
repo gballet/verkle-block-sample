@@ -14,7 +14,7 @@ struct Args {
     #[clap(
         short,
         long,
-        default_value = "1b9ac0684eb0d49102c4afb99d6d82d02061de38b84dad96fd9812ded48ddf97"
+        default_value = "323ce96c53ff0abf906b68e544885ca9798d0e042b690b76eefb7e9d9866db68"
     )]
     parent_root: String,
 }
