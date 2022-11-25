@@ -44,11 +44,12 @@ fn main() {
         }
     }
 
-    let (checked, _) = block
+    let proof = block
         .header
         .proof
-        .verkle_proof
-        .check(keyvals.keys, keyvals.values, root);
+        .verkle_proof;
+    println!("{}", proof);
+    let (checked, _) = proof.check(keyvals.keys, keyvals.values, root);
     if !checked {
         panic!("the proof didn't check")
     }
