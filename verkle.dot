@@ -1,49 +1,43 @@
 digraph D {
-node [shape=rect]
-internal [label="I: b6126e9ec48ee348cbad32759bcab4d21b13d42caeffa45663bc0deaac7cf606"]
-leaf50 [label="L: 1731350082afd4f1c1e1cc7c6a2a2c2e08d3893bd227a29061d9d7b9b7ad38af
-C: 33d888598ef2cd3556b48ba23da511073204cc7384a41bf539524dac53dc1e8b
-C₁: 49a58622affc8f8cc93042c7d5977127823d382e2602f3dc3e79e984b5dcd161
-C₂:00"]
-internal -> leaf50 [label="0x50"]
-val500 [label="00"]
-leaf50 -> val500 [label="0"]
-val501 [label="e703"]
-leaf50 -> val501 [label="1"]
-val502 [label="00"]
-leaf50 -> val502 [label="2"]
-val503 [label="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
-leaf50 -> val503 [label="3"]
-val504 [label="00"]
-leaf50 -> val504 [label="4"]
-leaf69 [label="L: 1655dd6db33f21f6d65ea8a9f68305fa76d12fefaaaa7c49972584760356f5ae
-C: aef5560376842597497caaaaef2fd176fa0583f6a9a85ed6f6213fb36ddd5516
-C₁: 4b084aefe7c95d371d42ba690a950e9144b78b1be51b037cf2c7282d8d015bd7
-C₂:00"]
-internal -> leaf69 [label="0x69"]
-val690 [label="00"]
-leaf69 -> val690 [label="0"]
-val691 [label="e703c84e676dc11b"]
-leaf69 -> val691 [label="1"]
-val692 [label="00"]
-leaf69 -> val692 [label="2"]
-val693 [label="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
-leaf69 -> val693 [label="3"]
-val694 [label="00"]
-leaf69 -> val694 [label="4"]
-leaff5 [label="L: 0a6772a29d06b2b560f7085896f7915a51d598ba3fee126d2a669a94ec9e3066
-C: 66309eec949a662a6d12ee3fba98d5515a91f7965808f760b5b2069da272670a
-C₁: d24543030c25a08399df898b9f3f8f1e0efb9c96ffa79402fdfaab7e9c522e8c
-C₂:00"]
-internal -> leaff5 [label="0xf5"]
-valf50 [label="00"]
-leaff5 -> valf50 [label="0"]
-valf51 [label="324269359967e00d"]
-leaff5 -> valf51 [label="1"]
-valf52 [label="03"]
-leaff5 -> valf52 [label="2"]
-valf53 [label="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
-leaff5 -> valf53 [label="3"]
-valf54 [label="00"]
-leaff5 -> valf54 [label="4"]
+node [shape=rectangle]
+internal [label="I: 57f95d512aa8fc580a64b60f6d57e4f224720c0f0a96e853a0a9a20ab2f9b010"]
+leaf27 [label="L: 181979d4e07bfe96e5c30bd323ba22fc7125c372c0d493516424da932852d86a
+C: 55fc28df8d54aef6ffb43695ef3fed55993ae008dc033c36bb48d3efa131e7d8
+C₁: 5c3e125f152e0b296a8fc6a7506c52ea7cf364a85d2f38425c495845b8e5fcaa
+C₂:0000000000000000000000000000000000000000000000000000000000000000"]
+internal -> leaf27 [label="27"]
+val270 [label="00..."]
+leaf27 -> val270
+val271 [label="32c649ae8d68e00d000000000000000000000000000000000000000000000000"]
+leaf27 -> val271
+val272 [label="0300..."]
+leaf27 -> val272
+val273 [label="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
+leaf27 -> val273
+leaf87 [label="L: 19de76939539a26d8d58146b4254e48d1c10bd389da7e1d4d66a51d1de3b5b5b
+C: 162fd8312cf86dc104bf17f0f422633667a8015ecf071bb7b4a3d60ef48c97d1
+C₁: 2017cbbe34c97b32beff9b07abff67307f96cc24024e53e17d1cf1172fe9a2ec
+C₂:0000000000000000000000000000000000000000000000000000000000000000"]
+internal -> leaf87 [label="87"]
+val870 [label="00..."]
+leaf87 -> val870 [label="0"]
+val871 [label="e70300..."]
+leaf87 -> val871 [label="1"]
+val872 [label="00..."]
+leaf87 -> val872 [label="2"]
+val873 [label="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
+leaf87 -> val873 [label="3"]
+leafbf [label="L: 1592c9bec530dd587059c05eda484bfdc004f92bf0704e053bf770856067f6e7
+C: 621c65eed175759bed2c1293ba153fcbcc03a77ec5b8be6a70525284fadfe5ce
+C₁: 2c40ed9e5cc59ec79c1f64558e7712705119f5b6adba6abe67b0a85eea6a57a3
+C₂:0000000000000000000000000000000000000000000000000000000000000000"]
+internal -> leafbf [label="bf"]
+valbf0 [label="00..."]
+leafbf -> valbf0 [label="0"]
+valbf1 [label="e703c84e676dc11b000000000000000000000000000000000000000000000000"]
+leafbf -> valbf1 [label="1"]
+valbf2 [label="00..."]
+leafbf -> valbf2 [label="2"]
+valbf3 [label="c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"]
+leafbf -> valbf3 [label="3"]
 }
