@@ -44,10 +44,7 @@ fn main() {
         }
     }
 
-    let proof = block
-        .header
-        .proof
-        .verkle_proof;
+    let proof = block.header.proof.verkle_proof;
     println!("{}", proof);
     let (checked, _) = proof.check(keyvals.keys, keyvals.values, root);
     if !checked {
